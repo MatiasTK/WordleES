@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/WordleES/static/css/main.daee718d.css",
+    "main.js": "/WordleES/static/js/main.e9eb2a2c.js",
+    "index.html": "/WordleES/index.html",
+    "main.daee718d.css.map": "/WordleES/static/css/main.daee718d.css.map",
+    "main.e9eb2a2c.js.map": "/WordleES/static/js/main.e9eb2a2c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.daee718d.css",
+    "static/js/main.e9eb2a2c.js"
+  ]
+}
