@@ -1,13 +1,174 @@
-body {
+:root{
+  --color-fondo: #121213;
+  --color-texto: #f5f5f5;
+  --color-separador: #404040;
+  --color-tecla: #818384;
+  --color-incorrecto: #3a3a3c;
+  --color-correcto: #6ca969;
+  --color-presente: #c9b360;
+}
+
+*{
   margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  line-height: 1.5;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-fondo);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+/* Game */
+
+.game {
+  display: flex;
+  flex-direction: column;
+  max-width: 32rem;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content:space-between;
+  border-bottom: 1px solid #404040;
+}
+
+.titulo{
+  color: var(--color-texto);
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  margin-left: 3rem;
+}
+
+.icon{
+  margin: auto 0.5rem;
+  cursor: pointer;
+}
+
+.board-flex{
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.board{
+  padding: 0.75rem;
+}
+
+.fila{
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  column-gap: 0.3rem;
+  margin-bottom: 4px;
+}
+
+.square{
+  content: "";
+  max-width: 62px;
+  max-height: 62px;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  border: 2px solid var(--color-separador);
+  text-transform: uppercase;
+  padding: 1.5rem;
+  font-weight: bold;
+}
+
+.square span {
+  margin-left: -0.3rem;
+}
+
+.square::after{
+  content: "a";
+  visibility: hidden;
+}
+
+.fila-keyboard{
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
+  column-gap: 0.3rem;
+  margin-bottom: 7px;
+}
+
+.fila-keyboard:last-of-type{
+  margin-bottom: 1rem;
+}
+
+.key{
+  border: 1px solid var(--color-tecla);
+  background-color: var(--color-tecla);
+  color: var(--color-texto);
+  border-radius: 0.3rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  max-width: 46;
+  max-height: 56;
+  padding: 1.2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  cursor: pointer;
+}
+
+.key-special {
+  padding: 0.7rem 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.incorrecto {
+  background-color: var(--color-incorrecto);
+  border: 2px solid var(--color-incorrecto);
+}
+
+.presente {
+  background-color: var(--color-presente);
+  border: 2px solid var(--color-presente);
+}
+
+.correcto {
+  background-color: var(--color-correcto);
+  border: 2px solid var(--color-correcto);
+}
+
+/* Media queries */
+
+@media (max-width: 768px) {
+  .fila-keyboard:last-of-type{
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .key{
+    padding: 1.5rem 0.5rem;
+    min-width: 35px;
+  }
+
+  .key-special{
+    padding: 1rem 1rem;
+  }
 }
