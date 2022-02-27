@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+const diccionario = require('./diccionario.json')
 const words = require('./palabras_5.json');
 var dailyWord = words[Math.floor(Math.random() * words.length)];
 console.log(dailyWord);
@@ -195,7 +196,7 @@ class App extends React.Component {
     }
 
     word = word.toLowerCase();
-    if(!words.includes(word)){
+    if(!diccionario.includes(word)){
       alert("La palabra no existe");
       return false;
     }else{
@@ -239,19 +240,16 @@ class App extends React.Component {
   }
 
   async keyPress(e){
-    console.log(e);
     if(ganador){
       return;
     }
     let square = document.getElementsByClassName("square")[this.state.position-1];
     if(e === "Backspace"){
-      console.log("Posicion inicial: " + this.state.position);
       if(square.textContent === ""){
         await this.movePosition(false);
       }
       square = document.getElementsByClassName("square")[this.state.position-1];
       square.textContent = ""
-      console.log("Posicion final: " + this.state.position);
     }else if(e === "Enter"){
       const existe = this.checkWord();
       if(existe){
