@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const words = require('./diccionario.json');
+const words = require('./palabras_5.json');
 var dailyWord = words[Math.floor(Math.random() * words.length)];
 console.log(dailyWord);
 var ganador = false;
@@ -98,10 +98,9 @@ class Board extends React.Component{
 }
 
 class Keyboard extends React.Component {
-
   renderKey(i){
     return(
-      <button className='key' id={i}>{i}</button>
+      <button className='key' id={i} onClick={() => this.props.onClick(i)}>{i}</button>
     )
   }
 
@@ -133,7 +132,7 @@ class Keyboard extends React.Component {
           {this.renderKey("Ñ")}
         </div>
         <div className='fila-keyboard'>
-          <button className='key key-special'>ENVIAR</button>
+          <button className='key key-special' onClick={() => this.props.onClick('Enter')}>ENVIAR</button>
           {this.renderKey("Z")}
           {this.renderKey("X")}
           {this.renderKey("C")}
@@ -141,7 +140,7 @@ class Keyboard extends React.Component {
           {this.renderKey("B")}
           {this.renderKey("N")}
           {this.renderKey("M")}
-          <button className='key key-special'>
+          <button onClick={() => this.props.onClick('Backspace')} className='key key-special'>
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-backspace" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#f5f5f5" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
               <path d="M20 6a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-11l-5 -5a1.5 1.5 0 0 1 0 -2l5 -5z" />
@@ -181,24 +180,35 @@ class App extends React.Component {
   /* Devuelve true si la palabra existe o false si no existe */
   checkWord(){
     let word = "";
+
     const square = document.querySelectorAll(".square");
     for(let i = this.state.row * 5 - 5; i < this.state.row * 5; i++){
       word += square[i].textContent;
     }
 
+    const cantidadRepetidos = {};
+    for(let i = 0; i < dailyWord.length; i++){
+      cantidadRepetidos[dailyWord[i]] = 0;
+    }
+    for(let i = 0; i < dailyWord.length; i++){
+      cantidadRepetidos[dailyWord[i]]++;
+    }
+
+    word = word.toLowerCase();
     if(!words.includes(word)){
       alert("La palabra no existe");
       return false;
     }else{
       for(let i = 0; i < 5; i++){
-        if(word[i] == dailyWord[i]){
+        if(word[i] === dailyWord[i]){
           square[i + (5* (this.state.row -1))].classList.add("correcto");
           document.getElementById(word[i].toUpperCase()).classList.add("correcto");
+          cantidadRepetidos[word[i]]--;
         }
       }
 
       for(let i = 0; i < 5; i++){
-        if(dailyWord.includes(word[i])){
+        if(dailyWord.includes(word[i]) && (cantidadRepetidos[word[i]] > 0)){
           square[i + (5* (this.state.row -1))].classList.add("presente");
           document.getElementById(word[i].toUpperCase()).classList.add("presente");
         }else{
@@ -208,7 +218,7 @@ class App extends React.Component {
       }
     }
 
-    if(word == dailyWord){
+    if(word === dailyWord){
       alert("Ganaste!!");
       ganador = true;
     }
@@ -228,39 +238,40 @@ class App extends React.Component {
     })
   }
 
-  keyPress(e){
+  async keyPress(e){
+    console.log(e);
     if(ganador){
       return;
     }
-
     let square = document.getElementsByClassName("square")[this.state.position-1];
-    if(e.key === "Backspace"){
-      if(square.textContent == ""){
-        this.movePosition(false);
+    if(e === "Backspace"){
+      console.log("Posicion inicial: " + this.state.position);
+      if(square.textContent === ""){
+        await this.movePosition(false);
       }
       square = document.getElementsByClassName("square")[this.state.position-1];
       square.textContent = ""
-    }else if(e.key === "Enter"){
+      console.log("Posicion final: " + this.state.position);
+    }else if(e === "Enter"){
       const existe = this.checkWord();
       if(existe){
         this.moveRow();
       }
-    }else if(e.key.length === 1 && square.textContent === "" && /[a-zA-Z\u00f1\u00d1]/.test(e.key)){
-
+    }else if(e.length === 1 && square.textContent === "" && /[a-zA-Z\u00f1\u00d1]/.test(e)){
       const span = document.createElement("span");
-      span.textContent = e.key;
+      span.textContent = e;
       square.appendChild(span);
       this.movePosition();
     }
   }
 
   render(){
-    document.onkeydown = (e) => this.keyPress(e);
+    document.onkeydown = (e) => this.keyPress(e.key);
     return(
       <div className='game'>
         <Header/>
         <Board position={this.state.position}/>
-        <Keyboard/>
+        <Keyboard onClick={i => this.keyPress(i)}/>
       </div>
     )
   }

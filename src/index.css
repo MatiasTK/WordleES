@@ -135,6 +135,7 @@ code {
 
 .key-special {
   padding: 0.7rem 1.2rem;
+  max-width: 85px;
   display: flex;
   align-items: center;
 }
