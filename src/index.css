@@ -58,7 +58,6 @@ code {
   color: var(--color-texto);
   text-transform: uppercase;
   letter-spacing: 0.2rem;
-  margin-left: 3rem;
 }
 
 .icon{
@@ -160,4 +159,25 @@ code {
 .correcto {
   background-color: var(--color-correcto);
   border: 2px solid var(--color-correcto);
+}
+
+.Toastify__toast-container--top-center {
+  width: auto;
+  top: 4rem;
+}
+
+/* Media queries */
+
+@media (max-width: 768px) {
+  .Toastify__toast-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .Toastify__toast {
+    border-radius: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
 }

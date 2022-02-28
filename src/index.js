@@ -1,23 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
-const diccionario = require('./diccionario.json')
+/* TO DO:
+1- Boton para reiniciar el juego|
+2- Alertas cuando se acierta y cuando no existe
+3- Alerta cuando pone palabra menor a 5
+4- Chequear palabra en rae? Scraping
+5- Modo claro/oscuro
+6- Settings de guardado local de preferencias
+7- Menu de ayuda
+8- Menu estadisticas
+9- Modo dificil?
+10- Compartir twitter y fb 
+11- Arreglar palabras del dic con signo de pregunta
+*/
+
+const diccionario = require('./diccionario.json');
 const words = require('./palabras_5.json');
+words.forEach(word => diccionario.push(word));
 var dailyWord = words[Math.floor(Math.random() * words.length)];
 console.log(dailyWord);
-var ganador = false;
+var juegoFinalizado = false;
 
 class Header extends React.Component{
   render(){
     return(
       <header className='header'>
+          <div>
           <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-help" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#525252" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <circle cx="12" cy="12" r="9" />
             <line x1="12" y1="17" x2="12" y2="17.01" />
             <path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4" />
           </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#424242" fill="none" strokeLinecap="round" strokeLinejoin="round" onClick={() => this.props.onClick()}>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+          </svg>
+          </div>
           <h1 className='titulo'>Wordle</h1>
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-chart-bar" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#525252" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -187,6 +211,22 @@ class App extends React.Component {
       word += square[i].textContent;
     }
 
+    if(word.length !== 5){
+      toast.info('No hay suficientes letras', {
+        position: "top-center",
+        className: 'toast',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Zoom,
+      });
+
+      return false;
+    }
+
     const cantidadRepetidos = {};
     for(let i = 0; i < dailyWord.length; i++){
       cantidadRepetidos[dailyWord[i]] = 0;
@@ -197,7 +237,18 @@ class App extends React.Component {
 
     word = word.toLowerCase();
     if(!diccionario.includes(word)){
-      alert("La palabra no existe");
+      toast.info('La palabra no está en el diccionario', {
+        position: "top-center",
+        className: 'toast',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Zoom,
+
+      });
       return false;
     }else{
       for(let i = 0; i < 5; i++){
@@ -220,8 +271,16 @@ class App extends React.Component {
     }
 
     if(word === dailyWord){
-      alert("Ganaste!!");
-      ganador = true;
+      toast.success('Felicitaciones, acertaste!!', {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+      juegoFinalizado = true;
     }
     return true;
   }
@@ -239,8 +298,33 @@ class App extends React.Component {
     })
   }
 
+  restartGame(){
+    dailyWord = words[Math.floor(Math.random() * words.length)];
+    console.log(dailyWord);
+    const squares = document.getElementsByClassName("square");
+    for(let i = 0; i < squares.length; i++){
+      squares[i].classList.remove("correcto");
+      squares[i].classList.remove("presente");
+      squares[i].classList.remove("incorrecto");
+      squares[i].textContent = "";
+    }
+    const keys = document.getElementsByClassName("key");
+    for(let i = 0; i < keys.length; i++){
+      keys[i].classList.remove("correcto");
+      keys[i].classList.remove("presente");
+      keys[i].classList.remove("incorrecto");
+    }
+
+    this.setState({
+      row: 1,
+      position: 1,
+    })
+
+    juegoFinalizado = false;
+  }
+
   async keyPress(e){
-    if(ganador){
+    if(juegoFinalizado){
       return;
     }
     let square = document.getElementsByClassName("square")[this.state.position-1];
@@ -263,12 +347,35 @@ class App extends React.Component {
     }
   }
 
+  fallaste(){
+    if(juegoFinalizado){
+      return;
+    }
+
+    if(this.state.position === 31 && this.state.row === 7){
+      toast.error('Fallaste, la palabra era ' + dailyWord, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+        juegoFinalizado = true;
+    }
+  }
+
   render(){
     document.onkeydown = (e) => this.keyPress(e.key);
+    this.fallaste();
+    console.log(this.state.position);
+    console.log(this.state.row);
     return(
       <div className='game'>
-        <Header/>
+        <Header onClick={i => this.restartGame(i)}/>
         <Board position={this.state.position}/>
+        <ToastContainer limit={3}/>
         <Keyboard onClick={i => this.keyPress(i)}/>
       </div>
     )
