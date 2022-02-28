@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/WordleES/static/css/main.6afe4c2e.css",
-    "main.js": "/WordleES/static/js/main.e39b9d9d.js",
+    "main.js": "/WordleES/static/js/main.8410176a.js",
     "index.html": "/WordleES/index.html",
     "main.6afe4c2e.css.map": "/WordleES/static/css/main.6afe4c2e.css.map",
-    "main.e39b9d9d.js.map": "/WordleES/static/js/main.e39b9d9d.js.map"
+    "main.8410176a.js.map": "/WordleES/static/js/main.8410176a.js.map"
   },
   "entrypoints": [
     "static/css/main.6afe4c2e.css",
-    "static/js/main.e39b9d9d.js"
+    "static/js/main.8410176a.js"
   ]
 }
