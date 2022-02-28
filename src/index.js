@@ -11,12 +11,13 @@ import './index.css';
 4- Chequear palabra en rae? Scraping
 5- Modo claro/oscuro
 6- Settings de guardado local de preferencias
-7- Menu de ayuda
+7- M̶e̶n̶u̶ ̶d̶e̶ ̶a̶y̶u̶d̶a̶
 8- Menu estadisticas
 9- Modo dificil?
 10- Compartir twitter y fb 
 11- A̶r̶r̶e̶g̶l̶a̶r̶ ̶p̶a̶l̶a̶b̶r̶a̶s̶ ̶d̶e̶l̶ ̶d̶i̶c̶ ̶c̶o̶n̶ ̶s̶i̶g̶n̶o̶ ̶d̶e̶ ̶p̶r̶e̶g̶u̶n̶t̶a̶
 12- A̶r̶r̶e̶g̶l̶a̶r̶ ̶c̶e̶n̶t̶r̶a̶d̶o̶ ̶d̶e̶ ̶t̶e̶x̶t̶o̶ ̶s̶q̶u̶a̶r̶e̶
+13- Desactivar doble deteccion de palabras repetidas? EJ: pollo detecta las dos L si la palabra solo tiene 1.
 */
 
 const diccionario = require('./diccionario.json');
@@ -237,7 +238,7 @@ class Help extends React.Component {
           <p className='ayuda-descripcion'>Puede haber letras repetidas. Las pistas son independientes para cada letra.</p>
 
           <footer className='footer-ayuda'>
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#a3a3a3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-brand-github" width="20" height="20" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#a3a3a3" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
           </svg>
@@ -379,6 +380,7 @@ class App extends React.Component {
       squares[i].classList.remove("correcto");
       squares[i].classList.remove("presente");
       squares[i].classList.remove("incorrecto");
+      squares[i].classList.remove("scale-up-center");
       squares[i].textContent = "";
     }
     const keys = document.getElementsByClassName("key");
