@@ -28,6 +28,10 @@ body {
   background-color: var(--color-fondo);
 }
 
+span {
+  font-size: 2rem;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -84,27 +88,20 @@ code {
 }
 
 .square{
-  content: "";
-  max-width: 62px;
-  max-height: 62px;
-  font-size: 2rem;
   display: flex;
+  justify-content: center;
+  text-align: center;
   align-items: center;
+  content: "";
+  padding: 1rem;
+  height: 62px;
+  width: 62px;
+  font-weight: 62px;
   background-color: var(--color-fondo);
   color: var(--color-texto);
   border: 2px solid var(--color-separador);
   text-transform: uppercase;
-  padding: 1.5rem;
   font-weight: bold;
-}
-
-.square span {
-  margin-left: -0.3rem;
-}
-
-.square::after{
-  content: "a";
-  visibility: hidden;
 }
 
 .keyboard {

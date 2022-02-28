@@ -5,9 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
 /* TO DO:
-1- Boton para reiniciar el juego|
-2- Alertas cuando se acierta y cuando no existe
-3- Alerta cuando pone palabra menor a 5
+1- ̶B̶̶̶o̶̶̶t̶̶̶o̶̶̶n̶̶̶ ̶̶̶p̶̶̶a̶̶̶r̶̶̶a̶̶̶ ̶̶̶r̶̶̶e̶̶̶i̶̶̶n̶̶̶i̶̶̶c̶̶̶i̶̶̶a̶̶̶r̶̶̶ ̶̶̶e̶̶̶l̶̶̶ ̶̶̶j̶̶̶u̶̶̶e̶̶̶g̶̶̶o̶̶̶
+2- A̶l̶e̶r̶t̶a̶s̶ ̶c̶u̶a̶n̶d̶o̶ ̶s̶e̶ ̶a̶c̶i̶e̶r̶t̶a̶ ̶y̶ ̶c̶u̶a̶n̶d̶o̶ ̶n̶o̶ ̶e̶x̶i̶s̶t̶e̶
+3- A̶l̶e̶r̶t̶a̶ ̶c̶u̶a̶n̶d̶o̶ ̶p̶o̶n̶e̶ ̶p̶a̶l̶a̶b̶r̶a̶ ̶m̶e̶n̶o̶r̶ ̶a̶ ̶5̶
 4- Chequear palabra en rae? Scraping
 5- Modo claro/oscuro
 6- Settings de guardado local de preferencias
@@ -15,7 +15,8 @@ import './index.css';
 8- Menu estadisticas
 9- Modo dificil?
 10- Compartir twitter y fb 
-11- Arreglar palabras del dic con signo de pregunta
+11- A̶r̶r̶e̶g̶l̶a̶r̶ ̶p̶a̶l̶a̶b̶r̶a̶s̶ ̶d̶e̶l̶ ̶d̶i̶c̶ ̶c̶o̶n̶ ̶s̶i̶g̶n̶o̶ ̶d̶e̶ ̶p̶r̶e̶g̶u̶n̶t̶a̶
+12- A̶r̶r̶e̶g̶l̶a̶r̶ ̶c̶e̶n̶t̶r̶a̶d̶o̶ ̶d̶e̶ ̶t̶e̶x̶t̶o̶ ̶s̶q̶u̶a̶r̶e̶
 */
 
 const diccionario = require('./diccionario.json');
@@ -273,7 +274,7 @@ class App extends React.Component {
     if(word === dailyWord){
       toast.success('Felicitaciones, acertaste!!', {
         position: "top-center",
-        autoClose: 2000,
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -369,8 +370,6 @@ class App extends React.Component {
   render(){
     document.onkeydown = (e) => this.keyPress(e.key);
     this.fallaste();
-    console.log(this.state.position);
-    console.log(this.state.row);
     return(
       <div className='game'>
         <Header onClick={i => this.restartGame(i)}/>
