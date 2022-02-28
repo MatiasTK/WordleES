@@ -28,6 +28,8 @@ body {
   background-color: var(--color-fondo);
 }
 
+/* Utilidades */
+
 span {
   font-size: 2rem;
 }
@@ -37,10 +39,35 @@ code {
     monospace;
 }
 
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hidden{
+  display: none !important;
+}
 
 /* Game */
 
-.game {
+.game, .game-main, .game-help {
   display: flex;
   flex-direction: column;
   max-width: 32rem;
@@ -62,6 +89,7 @@ code {
   color: var(--color-texto);
   text-transform: uppercase;
   letter-spacing: 0.2rem;
+  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
 }
 
 .icon{
@@ -96,7 +124,6 @@ code {
   padding: 1rem;
   height: 62px;
   width: 62px;
-  font-weight: 62px;
   background-color: var(--color-fondo);
   color: var(--color-texto);
   border: 2px solid var(--color-separador);
@@ -142,20 +169,23 @@ code {
   color: var(--color-texto);
 }
 
+.scale-up-center {
+	animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) none;
+}
 
 .incorrecto {
-  background-color: var(--color-incorrecto);
-  border: 2px solid var(--color-incorrecto);
+  background-color: var(--color-incorrecto) !important;
+  border: 2px solid var(--color-incorrecto) !important;
 }
 
 .presente {
-  background-color: var(--color-presente);
-  border: 2px solid var(--color-presente);
+  background-color: var(--color-presente) !important;
+  border: 2px solid var(--color-presente) !important;
 }
 
 .correcto {
-  background-color: var(--color-correcto);
-  border: 2px solid var(--color-correcto);
+  background-color: var(--color-correcto) !important;
+  border: 2px solid var(--color-correcto) !important;
 }
 
 .Toastify__toast-container--top-center {
@@ -163,6 +193,89 @@ code {
   top: 4rem;
 }
 
+.ayuda {
+  color: var(--color-texto);
+}
+
+.ayuda-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  text-align: left;
+  padding: 1rem;
+}
+
+.ayuda-titulo {
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.ayuda-salir {
+  position: relative;
+  left: 5rem;
+  border: none;
+  background-color: var(--color-fondo);
+  color: var(--color-tecla);
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.ayuda-descripcion {
+  margin-bottom: 2rem;
+  text-align: start;
+}
+
+.ayuda-subtitulo {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.fila-help{
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  column-gap: 0.5rem;
+  margin-bottom: 4px;
+  width: 62px;
+}
+
+.square-help {
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  content: "";
+  padding: 1rem;
+  height: 62px;
+  width: 62px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  border: 2px solid var(--color-separador);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.grid-ayuda{
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+}
+
+.footer-ayuda {
+  display: flex;
+}
+
+.footer-ayuda a {
+  text-decoration: none;
+  color: var(--color-texto);
+}
 /* Media queries */
 
 @media (max-width: 768px) {

@@ -31,7 +31,7 @@ class Header extends React.Component{
     return(
       <header className='header'>
           <div>
-          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-help" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#525252" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-help" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#525252" fill="none" strokeLinecap="round" strokeLinejoin="round" onClick={() => this.props.displayHelp()}>
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <circle cx="12" cy="12" r="9" />
             <line x1="12" y1="17" x2="12" y2="17.01" />
@@ -179,6 +179,76 @@ class Keyboard extends React.Component {
   }
 }
 
+class Help extends React.Component {
+  renderSquare(value,optionalClass){
+    if(optionalClass){
+      return(
+        <button className={`square-help ${optionalClass}`} >{value}</button>
+      )
+    }else{
+      return(
+        <button className='square-help' >{value}</button>
+      )
+    }
+  }
+
+  render(){
+    return(
+      <div className='ayuda'>
+        <div className='ayuda-container'>
+          <h3 className='ayuda-titulo'>Como Jugar
+          
+          <button className='ayuda-salir'>
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#a3a3a3" fill="none" strokeLinecap="round" strokeLinejoin="round" onClick={() => this.props.displayHelp()}>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          </button>
+          </h3>
+          <p className='ayuda-descripcion'>Adivina la palabra oculta en seis intentos.</p>
+          <p className='ayuda-descripcion'>Cada intento debe ser una palabra válida de 5 letras.</p>
+          <p className='ayuda-descripcion'>Después de cada intento el color de las letras cambia para mostrar qué tan cerca estás de acertar la palabra.</p>
+          <p className='ayuda-subtitulo'>Ejemplos</p>
+          <div className='fila-help'>
+            {this.renderSquare('G','correcto')}
+            {this.renderSquare('A')}
+            {this.renderSquare('T')}
+            {this.renderSquare('O')}
+            {this.renderSquare('S')}
+          </div>
+          <p className='grid-ayuda'>La letra <b>G</b> está en la palabra y en la posición correcta.</p>
+          <div className='fila-help'>
+            {this.renderSquare('V')}
+            {this.renderSquare('O')}
+            {this.renderSquare('C', 'presente')}
+            {this.renderSquare('A')}
+            {this.renderSquare('L')}
+          </div>
+          <p className='grid-ayuda'>La letra <b>C</b> está en la palabra pero en la posición incorrecta.</p>
+          <div className='fila-help'>
+            {this.renderSquare('C')}
+            {this.renderSquare('A')}
+            {this.renderSquare('N')}
+            {this.renderSquare('T')}
+            {this.renderSquare('O', 'incorrecto')}
+          </div>
+          <p className='grid-ayuda'>La letra <b>O</b> no está en la palabra.</p>
+          <p className='ayuda-descripcion'>Puede haber letras repetidas. Las pistas son independientes para cada letra.</p>
+
+          <footer className='footer-ayuda'>
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#a3a3a3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+          </svg>
+          <a href='https://github.com/MatiasTK'>MatiasTK</a>
+          </footer>
+        </div>
+      </div>
+    )
+  }
+}
+
 class App extends React.Component {
   state = {
     position: 1,
@@ -237,6 +307,7 @@ class App extends React.Component {
     }
 
     word = word.toLowerCase();
+    
     if(!diccionario.includes(word)){
       toast.info('La palabra no está en el diccionario', {
         position: "top-center",
@@ -252,16 +323,17 @@ class App extends React.Component {
       });
       return false;
     }else{
+      let delay = 0;
       for(let i = 0; i < 5; i++){
+        square[i + (5* (this.state.row -1))].style.animationDelay = `${delay}s`;
+        square[i + (5* (this.state.row -1))].style.transitionDelay = `${delay}s`;
+        delay+= 0.4;
+        square[i + (5* (this.state.row -1))].classList.add("scale-up-center");
         if(word[i] === dailyWord[i]){
           square[i + (5* (this.state.row -1))].classList.add("correcto");
           document.getElementById(word[i].toUpperCase()).classList.add("correcto");
           cantidadRepetidos[word[i]]--;
-        }
-      }
-
-      for(let i = 0; i < 5; i++){
-        if(dailyWord.includes(word[i]) && (cantidadRepetidos[word[i]] > 0)){
+        }else if(dailyWord.includes(word[i]) && (cantidadRepetidos[word[i]] > 0)){
           square[i + (5* (this.state.row -1))].classList.add("presente");
           document.getElementById(word[i].toUpperCase()).classList.add("presente");
         }else{
@@ -367,15 +439,28 @@ class App extends React.Component {
     }
   }
 
+  displayHelp(){
+    const gameMain = document.querySelector('.game-main');
+    gameMain.classList.toggle("hidden");
+
+    const gameHelp = document.querySelector('.game-help');
+    gameHelp.classList.toggle('hidden');
+  }
+
   render(){
     document.onkeydown = (e) => this.keyPress(e.key);
     this.fallaste();
     return(
       <div className='game'>
-        <Header onClick={i => this.restartGame(i)}/>
-        <Board position={this.state.position}/>
-        <ToastContainer limit={3}/>
-        <Keyboard onClick={i => this.keyPress(i)}/>
+        <div className='game-main'>
+          <Header onClick={i => this.restartGame(i)} displayHelp={() => this.displayHelp()}/>
+          <Board position={this.state.position}/>
+          <ToastContainer limit={3}/>
+          <Keyboard onClick={i => this.keyPress(i)}/>
+        </div>
+        <div className='game-help hidden scale-up-center'>
+          <Help displayHelp={() => this.displayHelp()}/>
+        </div>
       </div>
     )
   }
