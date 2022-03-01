@@ -279,15 +279,18 @@ code {
   color: var(--color-texto);
 }
 
+.game-settings, .settings {
+  height: 100%;
+}
+
 .settings-container {
   color: var(--color-texto);
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   text-align: left;
-  align-items: center;
-  height: 100%;
-  padding: 2rem;
+  height: 90%;
+  padding: 1rem;
 }
 
 .settings-titulo {
@@ -296,6 +299,13 @@ code {
   width: 100%;
   text-align: center;
   margin-bottom: 2rem;
+}
+
+.settings-opciones {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .settings-opcion{
@@ -308,6 +318,10 @@ code {
   margin-bottom: 2rem;
 }
 
+.settings-opcion__subtexto {
+  font-size: 0.8rem;
+  color: var(--color-tecla);
+}
 
 /* Media queries */
 
