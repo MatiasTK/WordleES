@@ -3,21 +3,25 @@ import ReactDOM from 'react-dom';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
+import './switch.css'
 
-/* TO DO:
+/* 
+TO DO:
+5- Modo claro/oscuro.
+6- Settings de guardado local de preferencias.
+8- Menu estadisticas.
+9- Modo dificil?.
+10- Compartir twitter y fb.
+13- Desactivar doble deteccion de palabras repetidas? EJ: pollo detecta las dos L si la palabra solo tiene 1.
+14- Arreglar deteccion de palabras?
 1- ̶B̶̶̶o̶̶̶t̶̶̶o̶̶̶n̶̶̶ ̶̶̶p̶̶̶a̶̶̶r̶̶̶a̶̶̶ ̶̶̶r̶̶̶e̶̶̶i̶̶̶n̶̶̶i̶̶̶c̶̶̶i̶̶̶a̶̶̶r̶̶̶ ̶̶̶e̶̶̶l̶̶̶ ̶̶̶j̶̶̶u̶̶̶e̶̶̶g̶̶̶o̶̶̶
 2- A̶l̶e̶r̶t̶a̶s̶ ̶c̶u̶a̶n̶d̶o̶ ̶s̶e̶ ̶a̶c̶i̶e̶r̶t̶a̶ ̶y̶ ̶c̶u̶a̶n̶d̶o̶ ̶n̶o̶ ̶e̶x̶i̶s̶t̶e̶
 3- A̶l̶e̶r̶t̶a̶ ̶c̶u̶a̶n̶d̶o̶ ̶p̶o̶n̶e̶ ̶p̶a̶l̶a̶b̶r̶a̶ ̶m̶e̶n̶o̶r̶ ̶a̶ ̶5̶
-4- Chequear palabra en rae? Scraping
-5- Modo claro/oscuro
-6- Settings de guardado local de preferencias
+4- C̶h̶e̶q̶u̶e̶a̶r̶ ̶p̶a̶l̶a̶b̶r̶a̶ ̶e̶n̶ ̶r̶a̶e̶?̶ ̶S̶c̶r̶a̶p̶i̶n̶g̶  -> Imposible, son muchas, como mucho podes buscar un diccionario oficial en linea.
 7- M̶e̶n̶u̶ ̶d̶e̶ ̶a̶y̶u̶d̶a̶
-8- Menu estadisticas
-9- Modo dificil?
-10- Compartir twitter y fb 
 11- A̶r̶r̶e̶g̶l̶a̶r̶ ̶p̶a̶l̶a̶b̶r̶a̶s̶ ̶d̶e̶l̶ ̶d̶i̶c̶ ̶c̶o̶n̶ ̶s̶i̶g̶n̶o̶ ̶d̶e̶ ̶p̶r̶e̶g̶u̶n̶t̶a̶
 12- A̶r̶r̶e̶g̶l̶a̶r̶ ̶c̶e̶n̶t̶r̶a̶d̶o̶ ̶d̶e̶ ̶t̶e̶x̶t̶o̶ ̶s̶q̶u̶a̶r̶e̶
-13- Desactivar doble deteccion de palabras repetidas? EJ: pollo detecta las dos L si la palabra solo tiene 1.
+15- A̶r̶r̶e̶g̶l̶a̶r̶ ̶d̶i̶c̶c̶i̶o̶n̶a̶r̶i̶o̶,̶ ̶h̶a̶c̶e̶r̶l̶o̶ ̶m̶a̶s̶ ̶f̶a̶c̶i̶l̶
 */
 
 const diccionario = require('./diccionario.json');
@@ -53,7 +57,7 @@ class Header extends React.Component{
               <rect x="15" y="4" width="6" height="16" rx="1" />
               <line x1="4" y1="20" x2="18" y2="20" />
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-settings" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#525252" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-settings" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#525252" fill="none" strokeLinecap="round" strokeLinejoin="round" onClick={() => this.props.displaySettings()}>
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
               <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
               <circle cx="12" cy="12" r="3" />
@@ -250,10 +254,67 @@ class Help extends React.Component {
   }
 }
 
+class Settings extends React.Component {
+  render(){
+    return(
+      <div className='settings'>
+        <div className='settings-container'>
+          <h3 className='settings-titulo'>
+            Ajustes
+            <button className='ayuda-salir'>
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#a3a3a3" fill="none" strokeLinecap="round" strokeLinejoin="round" onClick={() => this.props.displaySettings()}>
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          </h3>
+          <div className='settings-opcion'>
+            <div>
+              <p className='settings-opcion__texto'>Modo Oscuro</p>
+            </div>
+            <div>
+            <div className="onoffswitch">
+                <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="myonoffswitch" tabIndex={0} defaultChecked={true} onChange={()=> this.props.cambiarModoOscuro()}/>
+                <label className="onoffswitch-label" htmlFor="myonoffswitch"></label>
+            </div>
+            </div>
+          </div>
+          <div className='settings-opcion'>
+            <div>
+              <p className='settings-opcion__texto'>Modo Dificil</p>
+            </div>
+            <div>
+            <div className="onoffswitch">
+                <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="myonoffswitch-1" tabIndex={1} defaultChecked={false} onChange={()=> this.props.cambiarModoDificil()}/>
+                <label className="onoffswitch-label" htmlFor="myonoffswitch-1" tabIndex={1}></label>
+            </div>
+            </div>
+          </div>
+          <div className='settings-opcion'>
+            <div>
+              <p className='settings-opcion__texto'>Modo para Daltonicos</p>
+            </div>
+            <div>
+            <div className="onoffswitch">
+                <input type="checkbox" name="onoffswitch-2" className="onoffswitch-checkbox" id="myonoffswitch-2" tabIndex={2} defaultChecked={false} onChange={()=> this.props.cambiarModoDaltonico()}/>
+                <label className="onoffswitch-label" htmlFor="myonoffswitch-2"></label>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
 class App extends React.Component {
   state = {
     position: 1,
     row: 1,
+    dificil: false,
+    modoOscuro: true,
+    modoDaltonicos: true,
   }
 
   movePosition(stepForward=true){
@@ -373,7 +434,12 @@ class App extends React.Component {
   }
 
   restartGame(){
-    dailyWord = words[Math.floor(Math.random() * words.length)];
+    if(this.state.dificil){
+      dailyWord = diccionario[Math.floor(Math.random() * words.length)];
+    }else{
+      dailyWord = words[Math.floor(Math.random() * words.length)];
+    }
+
     console.log(dailyWord);
     const squares = document.getElementsByClassName("square");
     for(let i = 0; i < squares.length; i++){
@@ -441,12 +507,63 @@ class App extends React.Component {
     }
   }
 
-  displayHelp(){
+  displayMenu(menu){
     const gameMain = document.querySelector('.game-main');
     gameMain.classList.toggle("hidden");
 
-    const gameHelp = document.querySelector('.game-help');
+    const gameHelp = document.querySelector(menu);
     gameHelp.classList.toggle('hidden');
+  }
+
+  cambiarModoDificil(){
+    this.setState({
+      dificil: !this.state.dificil,
+    })
+    this.restartGame();
+  }
+
+  cambiarModoOscuro(){
+    this.setState({
+      modoOscuro: !this.state.modoOscuro,
+    })
+
+    const style = document.documentElement.style;
+    const backspaceIcon = document.querySelector('.icon-tabler-backspace');
+    
+    if(!this.state.modoOscuro){
+      backspaceIcon.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-backspace" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#f5f5f5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M20 6a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-11l-5 -5a1.5 1.5 0 0 1 0 -2l5 -5z"></path><path d="M12 10l4 4m0 -4l-4 4"></path></svg>';
+      style.setProperty('--color-fondo', '#121213');
+      style.setProperty('--color-texto', '#f5f5f5');
+      style.setProperty('--color-tecla', '#818384');
+      style.setProperty('--color-separador', '#404040');
+      style.setProperty('--color-letras', '#ffffff');
+      style.setProperty('--color-incorrecto', '#3a3a3c')
+    }else{
+      backspaceIcon.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-backspace" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M20 6a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-11l-5 -5a1.5 1.5 0 0 1 0 -2l5 -5z"></path><path d="M12 10l4 4m0 -4l-4 4"></path></svg>';
+      style.setProperty('--color-fondo', '#ffffff');
+      style.setProperty('--color-texto', '#111826');
+      style.setProperty('--color-tecla', '#d3d6da');
+      style.setProperty('--color-separador', '#d4d4d4');
+      style.setProperty('--color-letras', '#000000');
+      style.setProperty('--color-incorrecto', '#787c7e')
+    }
+  }
+
+  cambiarModoDaltonico(){
+    this.setState({
+      modoDaltonicos: !this.state.modoDaltonicos,
+    })
+    console.log(this.state.modoDaltonicos);
+    const style = document.documentElement.style;
+
+    if(this.state.modoDaltonicos){
+      console.log("Activando modo daltonico");
+      style.setProperty('--color-correcto','#86c1f6');
+      style.setProperty('--color-presente', '#f47842');
+    }else{
+      style.setProperty('--color-correcto','#6ca969');
+      style.setProperty('--color-presente', '#c9b360');
+    }
   }
 
   render(){
@@ -455,13 +572,16 @@ class App extends React.Component {
     return(
       <div className='game'>
         <div className='game-main'>
-          <Header onClick={i => this.restartGame(i)} displayHelp={() => this.displayHelp()}/>
+          <Header onClick={i => this.restartGame(i)} displayHelp={() => this.displayMenu('.game-help')} displaySettings={() => this.displayMenu('.game-settings')}/>
           <Board position={this.state.position}/>
           <ToastContainer limit={3}/>
           <Keyboard onClick={i => this.keyPress(i)}/>
         </div>
         <div className='game-help hidden scale-up-center'>
-          <Help displayHelp={() => this.displayHelp()}/>
+          <Help displayHelp={() => this.displayMenu('.game-help')}/>
+        </div>
+        <div className='game-settings hidden scale-up-center'>
+          <Settings displaySettings={() => this.displayMenu('.game-settings')} cambiarModoDificil={() => this.cambiarModoDificil()} cambiarModoOscuro={ () => this.cambiarModoOscuro()} cambiarModoDaltonico={()=> this.cambiarModoDaltonico()}/>
         </div>
       </div>
     )
