@@ -325,6 +325,28 @@ code {
 
 /* Media queries */
 
+@media (max-width: 360px){
+  .titulo{
+    font-size: 1.5rem;
+  }
+
+  .square {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (max-height: 560px){
+  .square {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .square span {
+    font-size: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .Toastify__toast-container{
     width: 100%;
