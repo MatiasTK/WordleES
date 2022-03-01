@@ -7,20 +7,20 @@ import './switch.css'
 
 /* 
 TO DO:
-5- Modo claro/oscuro.
 6- Settings de guardado local de preferencias.
 8- Menu estadisticas.
-9- Modo dificil?.
 10- Compartir twitter y fb.
-13- Desactivar doble deteccion de palabras repetidas? EJ: pollo detecta las dos L si la palabra solo tiene 1.
-14- Arreglar deteccion de palabras?
 1- ̶B̶̶̶o̶̶̶t̶̶̶o̶̶̶n̶̶̶ ̶̶̶p̶̶̶a̶̶̶r̶̶̶a̶̶̶ ̶̶̶r̶̶̶e̶̶̶i̶̶̶n̶̶̶i̶̶̶c̶̶̶i̶̶̶a̶̶̶r̶̶̶ ̶̶̶e̶̶̶l̶̶̶ ̶̶̶j̶̶̶u̶̶̶e̶̶̶g̶̶̶o̶̶̶
 2- A̶l̶e̶r̶t̶a̶s̶ ̶c̶u̶a̶n̶d̶o̶ ̶s̶e̶ ̶a̶c̶i̶e̶r̶t̶a̶ ̶y̶ ̶c̶u̶a̶n̶d̶o̶ ̶n̶o̶ ̶e̶x̶i̶s̶t̶e̶
 3- A̶l̶e̶r̶t̶a̶ ̶c̶u̶a̶n̶d̶o̶ ̶p̶o̶n̶e̶ ̶p̶a̶l̶a̶b̶r̶a̶ ̶m̶e̶n̶o̶r̶ ̶a̶ ̶5̶
 4- C̶h̶e̶q̶u̶e̶a̶r̶ ̶p̶a̶l̶a̶b̶r̶a̶ ̶e̶n̶ ̶r̶a̶e̶?̶ ̶S̶c̶r̶a̶p̶i̶n̶g̶  -> Imposible, son muchas, como mucho podes buscar un diccionario oficial en linea.
+5- M̶o̶d̶o̶ ̶c̶l̶a̶r̶o̶/̶o̶s̶c̶u̶r̶o̶.̶
 7- M̶e̶n̶u̶ ̶d̶e̶ ̶a̶y̶u̶d̶a̶
+9- ̶M̶o̶d̶o̶ ̶d̶i̶f̶i̶c̶i̶l̶?̶.̶
 11- A̶r̶r̶e̶g̶l̶a̶r̶ ̶p̶a̶l̶a̶b̶r̶a̶s̶ ̶d̶e̶l̶ ̶d̶i̶c̶ ̶c̶o̶n̶ ̶s̶i̶g̶n̶o̶ ̶d̶e̶ ̶p̶r̶e̶g̶u̶n̶t̶a̶
 12- A̶r̶r̶e̶g̶l̶a̶r̶ ̶c̶e̶n̶t̶r̶a̶d̶o̶ ̶d̶e̶ ̶t̶e̶x̶t̶o̶ ̶s̶q̶u̶a̶r̶e̶
+13- ̶D̶e̶s̶a̶c̶t̶i̶v̶a̶r̶ ̶d̶o̶b̶l̶e̶ ̶d̶e̶t̶e̶c̶c̶i̶o̶n̶ ̶d̶e̶ ̶p̶a̶l̶a̶b̶r̶a̶s̶ ̶r̶e̶p̶e̶t̶i̶d̶a̶s̶?̶ ̶E̶J̶:̶ ̶p̶o̶l̶l̶o̶ ̶d̶e̶t̶e̶c̶t̶a̶ ̶l̶a̶s̶ ̶d̶o̶s̶ ̶L̶ ̶s̶i̶ ̶l̶a̶ ̶p̶a̶l̶a̶b̶r̶a̶ ̶s̶o̶l̶o̶ ̶t̶i̶e̶n̶e̶ ̶1̶.̶
+14- A̶r̶r̶e̶g̶l̶a̶r̶ ̶d̶e̶t̶e̶c̶c̶i̶o̶n̶ ̶d̶e̶ ̶p̶a̶l̶a̶b̶r̶a̶s̶?̶
 15- A̶r̶r̶e̶g̶l̶a̶r̶ ̶d̶i̶c̶c̶i̶o̶n̶a̶r̶i̶o̶,̶ ̶h̶a̶c̶e̶r̶l̶o̶ ̶m̶a̶s̶ ̶f̶a̶c̶i̶l̶
 */
 
@@ -28,7 +28,6 @@ const diccionario = require('./diccionario.json');
 const words = require('./palabras_5.json');
 words.forEach(word => diccionario.push(word));
 var dailyWord = words[Math.floor(Math.random() * words.length)];
-console.log(dailyWord);
 var juegoFinalizado = false;
 
 class Header extends React.Component{
@@ -391,13 +390,19 @@ class App extends React.Component {
         square[i + (5* (this.state.row -1))].style.transitionDelay = `${delay}s`;
         delay+= 0.4;
         square[i + (5* (this.state.row -1))].classList.add("scale-up-center");
+        
         if(word[i] === dailyWord[i]){
           square[i + (5* (this.state.row -1))].classList.add("correcto");
           document.getElementById(word[i].toUpperCase()).classList.add("correcto");
           cantidadRepetidos[word[i]]--;
-        }else if(dailyWord.includes(word[i]) && (cantidadRepetidos[word[i]] > 0)){
+        }
+      }
+
+      for(let i = 0; i < 5; i++){
+        if(dailyWord.includes(word[i]) && (cantidadRepetidos[word[i]] > 0)){
           square[i + (5* (this.state.row -1))].classList.add("presente");
           document.getElementById(word[i].toUpperCase()).classList.add("presente");
+          cantidadRepetidos[word[i]]--;
         }else{
           square[i + (5* (this.state.row -1))].classList.add("incorrecto");
           document.getElementById(word[i].toUpperCase()).classList.add("incorrecto");
@@ -440,7 +445,6 @@ class App extends React.Component {
       dailyWord = words[Math.floor(Math.random() * words.length)];
     }
 
-    console.log(dailyWord);
     const squares = document.getElementsByClassName("square");
     for(let i = 0; i < squares.length; i++){
       squares[i].classList.remove("correcto");
@@ -553,11 +557,9 @@ class App extends React.Component {
     this.setState({
       modoDaltonicos: !this.state.modoDaltonicos,
     })
-    console.log(this.state.modoDaltonicos);
     const style = document.documentElement.style;
 
     if(this.state.modoDaltonicos){
-      console.log("Activando modo daltonico");
       style.setProperty('--color-correcto','#86c1f6');
       style.setProperty('--color-presente', '#f47842');
     }else{
