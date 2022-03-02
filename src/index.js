@@ -4,6 +4,7 @@ import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import "./switch.css";
+import CryptoJS from "crypto-js";
 
 /* 
 TO DO:
@@ -27,6 +28,7 @@ TO DO:
 const diccionario = require("./diccionario.json");
 const words = require("./palabras_5.json");
 words.forEach((word) => diccionario.push(word));
+const secretKey = "RSS6LZ9rO8EUZb2q16fH";
 
 class Header extends React.Component {
   render() {
@@ -633,7 +635,9 @@ class App extends React.Component {
     dificil: false,
     modoOscuro: true,
     modoDaltonicos: false,
-    dailyWord: words[Math.floor(Math.random() * words.length)],
+    dailyWord: this.encriptarPalabra(
+      words[Math.floor(Math.random() * words.length)]
+    ),
     juegoFinalizado: false,
     jugadas: 0,
     victorias: 0,
@@ -673,6 +677,16 @@ class App extends React.Component {
         jugadas: parse.jugadas,
       });
     }
+  }
+
+  encriptarPalabra(palabra) {
+    return CryptoJS.AES.encrypt(palabra, secretKey).toString();
+  }
+
+  desencriptarPalabra(encriptado) {
+    return CryptoJS.AES.decrypt(encriptado, secretKey).toString(
+      CryptoJS.enc.Utf8
+    );
   }
 
   guardarEstado = () => {
@@ -723,11 +737,19 @@ class App extends React.Component {
     }
 
     const cantidadRepetidos = {};
-    for (let i = 0; i < this.state.dailyWord.length; i++) {
-      cantidadRepetidos[this.state.dailyWord[i]] = 0;
+    for (
+      let i = 0;
+      i < this.desencriptarPalabra(this.state.dailyWord).length;
+      i++
+    ) {
+      cantidadRepetidos[this.desencriptarPalabra(this.state.dailyWord)[i]] = 0;
     }
-    for (let i = 0; i < this.state.dailyWord.length; i++) {
-      cantidadRepetidos[this.state.dailyWord[i]]++;
+    for (
+      let i = 0;
+      i < this.desencriptarPalabra(this.state.dailyWord).length;
+      i++
+    ) {
+      cantidadRepetidos[this.desencriptarPalabra(this.state.dailyWord)[i]]++;
     }
 
     word = word.toLowerCase();
@@ -755,7 +777,7 @@ class App extends React.Component {
         delay += 0.4;
         square[i + 5 * (this.state.row - 1)].classList.add("scale-up-center");
 
-        if (word[i] === this.state.dailyWord[i]) {
+        if (word[i] === this.desencriptarPalabra(this.state.dailyWord)[i]) {
           square[i + 5 * (this.state.row - 1)].classList.add("correcto");
           document
             .getElementById(word[i].toUpperCase())
@@ -766,7 +788,7 @@ class App extends React.Component {
 
       for (let i = 0; i < 5; i++) {
         if (
-          this.state.dailyWord.includes(word[i]) &&
+          this.desencriptarPalabra(this.state.dailyWord).includes(word[i]) &&
           cantidadRepetidos[word[i]] > 0
         ) {
           square[i + 5 * (this.state.row - 1)].classList.add("presente");
@@ -783,7 +805,7 @@ class App extends React.Component {
       }
     }
 
-    if (word === this.state.dailyWord) {
+    if (word === this.desencriptarPalabra(this.state.dailyWord)) {
       toast.success("Felicitaciones, acertaste!!", {
         position: "top-center",
         autoClose: 5000,
@@ -843,11 +865,15 @@ class App extends React.Component {
 
     if (this.state.dificil) {
       this.setState({
-        dailyWord: diccionario[Math.floor(Math.random() * diccionario.length)],
+        dailyWord: this.encriptarPalabra(
+          diccionario[Math.floor(Math.random() * diccionario.length)]
+        ),
       });
     } else {
       this.setState({
-        dailyWord: words[Math.floor(Math.random() * words.length)],
+        dailyWord: this.encriptarPalabra(
+          words[Math.floor(Math.random() * words.length)]
+        ),
       });
     }
 
@@ -893,15 +919,19 @@ class App extends React.Component {
     }
 
     if (this.state.position === 31 && this.state.row === 7) {
-      toast.error("Fallaste, la palabra era " + this.state.dailyWord, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error(
+        "Fallaste, la palabra era " +
+          this.desencriptarPalabra(this.state.dailyWord),
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
 
       const nuevasJugadas = this.state.jugadas + 1;
       const nuevaDistribucion = { ...this.state.distribucion };
