@@ -7,7 +7,6 @@ import "./switch.css";
 
 /* 
 TO DO:
-8- Menu estadisticas.
 10- Compartir twitter y fb.
 1- ̶B̶̶̶o̶̶̶t̶̶̶o̶̶̶n̶̶̶ ̶̶̶p̶̶̶a̶̶̶r̶̶̶a̶̶̶ ̶̶̶r̶̶̶e̶̶̶i̶̶̶n̶̶̶i̶̶̶c̶̶̶i̶̶̶a̶̶̶r̶̶̶ ̶̶̶e̶̶̶l̶̶̶ ̶̶̶j̶̶̶u̶̶̶e̶̶̶g̶̶̶o̶̶̶
 2- A̶l̶e̶r̶t̶a̶s̶ ̶c̶u̶a̶n̶d̶o̶ ̶s̶e̶ ̶a̶c̶i̶e̶r̶t̶a̶ ̶y̶ ̶c̶u̶a̶n̶d̶o̶ ̶n̶o̶ ̶e̶x̶i̶s̶t̶e̶
@@ -16,6 +15,7 @@ TO DO:
 5- M̶o̶d̶o̶ ̶c̶l̶a̶r̶o̶/̶o̶s̶c̶u̶r̶o̶.̶
 6- S̶e̶t̶t̶i̶n̶g̶s̶ ̶d̶e̶ ̶g̶u̶a̶r̶d̶a̶d̶o̶ ̶l̶o̶c̶a̶l̶ ̶d̶e̶ ̶p̶r̶e̶f̶e̶r̶e̶n̶c̶i̶a̶s̶.̶
 7- M̶e̶n̶u̶ ̶d̶e̶ ̶a̶y̶u̶d̶a̶
+8- M̶e̶n̶u̶ ̶e̶s̶t̶a̶d̶i̶s̶t̶i̶c̶a̶s̶.̶
 9- ̶M̶o̶d̶o̶ ̶d̶i̶f̶i̶c̶i̶l̶?̶.̶
 11- A̶r̶r̶e̶g̶l̶a̶r̶ ̶p̶a̶l̶a̶b̶r̶a̶s̶ ̶d̶e̶l̶ ̶d̶i̶c̶ ̶c̶o̶n̶ ̶s̶i̶g̶n̶o̶ ̶d̶e̶ ̶p̶r̶e̶g̶u̶n̶t̶a̶
 12- A̶r̶r̶e̶g̶l̶a̶r̶ ̶c̶e̶n̶t̶r̶a̶d̶o̶ ̶d̶e̶ ̶t̶e̶x̶t̶o̶ ̶s̶q̶u̶a̶r̶e̶
@@ -82,6 +82,7 @@ class Header extends React.Component {
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
+            onClick={() => this.props.displayStats()}
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <rect x="3" y="12" width="6" height="8" rx="1" />
@@ -113,43 +114,43 @@ class Header extends React.Component {
 }
 
 class Board extends React.Component {
-
   state = {
-    array: new Array,
-  }
+    array: [],
+  };
 
-  async componentDidMount(){
-    const data = await localStorage.getItem('square');
-    if(data){
+  async componentDidMount() {
+    const data = await localStorage.getItem("square");
+    if (data) {
       let parse = await JSON.parse(data);
-      if(parse.array[0] !== ''){
-        for(let i = 0; i < parse.array.length; i++){
-          if(parse.array[i] !== ''){
+      if (parse.array[0] !== "") {
+        for (let i = 0; i < parse.array.length; i++) {
+          if (parse.array[i] !== "") {
             await this.props.keyPress(parse.array[i]);
-            if((i+1) % 5 === 0){
+            if ((i + 1) % 5 === 0) {
               await this.llenarArray();
-              await this.props.keyPress('Enter');
+              await this.props.keyPress("Enter");
             }
           }
         }
       }
+      await this.props.recuperarStats();
     }
   }
 
-  async guardarEstado(){
-    await localStorage.setItem('square', JSON.stringify(this.state));
+  async guardarEstado() {
+    await localStorage.setItem("square", JSON.stringify(this.state));
   }
 
   renderSquare(i) {
     return <button className="square" value={i}></button>;
   }
 
-  async llenarArray(){
+  async llenarArray() {
     const square = document.querySelectorAll(".square");
     let newArray = [];
-    
-    for(let i = 0; i < square.length; i++){
-      newArray.push(square[i].textContent)
+
+    for (let i = 0; i < square.length; i++) {
+      newArray.push(square[i].textContent);
     }
 
     this.state.array = newArray;
@@ -157,7 +158,7 @@ class Board extends React.Component {
 
   render() {
     document.onkeyup = (e) => {
-      if(e.key === 'Enter'){
+      if (e.key === "Enter") {
         this.llenarArray();
       }
     };
@@ -165,7 +166,7 @@ class Board extends React.Component {
       this.llenarArray();
       this.guardarEstado();
       this.props.guardarEstado();
-    }
+    };
     return (
       <main className="board-flex">
         <div className="board">
@@ -524,6 +525,107 @@ class Settings extends React.Component {
   }
 }
 
+class Stats extends React.Component {
+  renderDistribution(number) {
+    const porcentaje = parseInt(
+      (this.props.state.distribucion[number] * 100) / this.props.state.jugadas
+    );
+    const chart = document.getElementById(`d-${number}`);
+    if (chart) {
+      chart.style.width = `${porcentaje / 10}rem`;
+    }
+
+    return (
+      <div className="stats-fila">
+        <p className="stats-fila-numero">{number}:</p>
+        <div className="stats-squares">
+          <dd className="percentage" id={"d-" + number}></dd>({porcentaje}%)
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div className="stats">
+        <div className="stats-container">
+          <h3 className="stats-titulo">
+            Estadisticas
+            <button className="ayuda-salir">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-x"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="#a3a3a3"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                onClick={() => this.props.displayStats()}
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </h3>
+          <div className="stats-main">
+            <div className="stats-stats">
+              <div className="stats-jugadas">
+                <p className="stats-numero">{this.props.state.jugadas}</p>
+                <p className="stats-texto">Jugadas</p>
+              </div>
+              <div className="victorias">
+                <p className="stats-numero">
+                  {parseInt(
+                    (this.props.state.victorias * 100) /
+                      this.props.state.jugadas
+                  )}
+                  %
+                </p>
+                <p className="stats-texto">Victorias</p>
+              </div>
+            </div>
+
+            <h3 className="stats-titulo">Distribucion</h3>
+            <div className="stats-distribucion">
+              <div className="stats-distribucion-center">
+                {this.renderDistribution("1")}
+                {this.renderDistribution("2")}
+                {this.renderDistribution("3")}
+                {this.renderDistribution("4")}
+                {this.renderDistribution("5")}
+                {this.renderDistribution("6")}
+                {this.renderDistribution("X")}
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer className="footer-ayuda">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="icon icon-tabler icon-tabler-brand-github"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="#a3a3a3"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+          </svg>
+          <a href="https://github.com/MatiasTK">MatiasTK</a>
+        </footer>
+      </div>
+    );
+  }
+}
+
 class App extends React.Component {
   state = {
     position: 1,
@@ -533,25 +635,49 @@ class App extends React.Component {
     modoDaltonicos: false,
     dailyWord: words[Math.floor(Math.random() * words.length)],
     juegoFinalizado: false,
+    jugadas: 0,
+    victorias: 0,
+    distribucion: {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+      6: 0,
+      X: 0,
+    },
   };
 
   async componentDidMount() {
-    const data = localStorage.getItem('state');
-    if(data){
+    const data = localStorage.getItem("state");
+    if (data) {
       let parse = JSON.parse(data);
       await this.setState({
         dificil: parse.dificil,
         modoOscuro: parse.modoOscuro,
         modoDaltonicos: parse.modoDaltonicos,
         dailyWord: parse.dailyWord,
-      })
+        distribucion: parse.distribucion,
+      });
       await this.cargarSettings();
+    }
+  }
+
+  async recuperarStats() {
+    const data = localStorage.getItem("state");
+    if (data) {
+      const parse = JSON.parse(data);
+      await this.setState({
+        victorias: parse.victorias,
+        distribucion: parse.distribucion,
+        jugadas: parse.jugadas,
+      });
     }
   }
 
   guardarEstado = () => {
     localStorage.setItem("state", JSON.stringify(this.state));
-  }
+  };
 
   movePosition(stepForward = true) {
     if (stepForward) {
@@ -639,7 +765,10 @@ class App extends React.Component {
       }
 
       for (let i = 0; i < 5; i++) {
-        if (this.state.dailyWord.includes(word[i]) && cantidadRepetidos[word[i]] > 0) {
+        if (
+          this.state.dailyWord.includes(word[i]) &&
+          cantidadRepetidos[word[i]] > 0
+        ) {
           square[i + 5 * (this.state.row - 1)].classList.add("presente");
           document
             .getElementById(word[i].toUpperCase())
@@ -664,9 +793,16 @@ class App extends React.Component {
         draggable: true,
         progress: undefined,
       });
+      const nuevasJugadas = this.state.jugadas + 1;
+      const nuevasVictorias = this.state.victorias + 1;
+      const nuevaDistribucion = { ...this.state.distribucion };
+      nuevaDistribucion[this.state.row] = nuevaDistribucion[this.state.row] + 1;
       this.setState({
-        juegoFinalizado: true
-      })
+        juegoFinalizado: true,
+        jugadas: nuevasJugadas,
+        victorias: nuevasVictorias,
+        distribucion: nuevaDistribucion,
+      });
     }
     return true;
   }
@@ -705,19 +841,19 @@ class App extends React.Component {
       position: 1,
     });
 
-    if(this.state.dificil){
+    if (this.state.dificil) {
       this.setState({
-        dailyWord: diccionario[Math.floor(Math.random() * diccionario.length)]
-      })
-    }else{
+        dailyWord: diccionario[Math.floor(Math.random() * diccionario.length)],
+      });
+    } else {
       this.setState({
-        dailyWord: words[Math.floor(Math.random() * words.length)]
-      })
+        dailyWord: words[Math.floor(Math.random() * words.length)],
+      });
     }
 
     this.setState({
-      juegoFinalizado: false
-    })
+      juegoFinalizado: false,
+    });
   }
 
   async keyPress(e) {
@@ -766,9 +902,15 @@ class App extends React.Component {
         draggable: true,
         progress: undefined,
       });
+
+      const nuevasJugadas = this.state.jugadas + 1;
+      const nuevaDistribucion = { ...this.state.distribucion };
+      nuevaDistribucion["X"] = nuevaDistribucion["X"] + 1;
       await this.setState({
-        juegoFinalizado: true
-      })
+        juegoFinalizado: true,
+        jugadas: nuevasJugadas,
+        distribucion: nuevaDistribucion,
+      });
     }
   }
 
@@ -788,10 +930,10 @@ class App extends React.Component {
   }
 
   async cambiarModoOscuro() {
-     await this.setState({
+    await this.setState({
       modoOscuro: !this.state.modoOscuro,
     });
-     await this.cargarSettings();
+    await this.cargarSettings();
   }
 
   async cambiarModoDaltonico() {
@@ -801,7 +943,7 @@ class App extends React.Component {
     await this.cargarSettings();
   }
 
-  cargarSettings(){
+  cargarSettings() {
     const style = document.documentElement.style;
 
     if (this.state.modoDaltonicos) {
@@ -833,7 +975,7 @@ class App extends React.Component {
       style.setProperty("--color-incorrecto", "#787c7e");
     }
   }
-  
+
   render() {
     document.onkeydown = (e) => this.keyPress(e.key);
     return (
@@ -843,8 +985,14 @@ class App extends React.Component {
             onClick={(i) => this.restartGame(i)}
             displayHelp={() => this.displayMenu(".game-help")}
             displaySettings={() => this.displayMenu(".game-settings")}
+            displayStats={() => this.displayMenu(".game-stats")}
           />
-          <Board position={this.state.position} keyPress={(e) => this.keyPress(e)} guardarEstado={() => this.guardarEstado()}/>
+          <Board
+            position={this.state.position}
+            keyPress={(e) => this.keyPress(e)}
+            guardarEstado={() => this.guardarEstado()}
+            recuperarStats={() => this.recuperarStats()}
+          />
           <ToastContainer limit={3} />
           <Keyboard onClick={(i) => this.keyPress(i)} />
         </div>
@@ -857,6 +1005,12 @@ class App extends React.Component {
             cambiarModoDificil={() => this.cambiarModoDificil()}
             cambiarModoOscuro={() => this.cambiarModoOscuro()}
             cambiarModoDaltonico={() => this.cambiarModoDaltonico()}
+            state={this.state}
+          />
+        </div>
+        <div className="game-stats hidden scale-up-center">
+          <Stats
+            displayStats={() => this.displayMenu(".game-stats")}
             state={this.state}
           />
         </div>
