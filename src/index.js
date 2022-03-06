@@ -116,59 +116,11 @@ class Header extends React.Component {
 }
 
 class Board extends React.Component {
-  state = {
-    array: [],
-  };
-
-  async componentDidMount() {
-    const data = await localStorage.getItem("square");
-    if (data) {
-      let parse = await JSON.parse(data);
-      if (parse.array[0] !== "") {
-        for (let i = 0; i < parse.array.length; i++) {
-          if (parse.array[i] !== "") {
-            await this.props.keyPress(parse.array[i]);
-            if ((i + 1) % 5 === 0) {
-              await this.llenarArray();
-              await this.props.keyPress("Enter");
-            }
-          }
-        }
-      }
-      await this.props.recuperarStats();
-    }
-  }
-
-  async guardarEstado() {
-    await localStorage.setItem("square", JSON.stringify(this.state));
-  }
-
   renderSquare(i) {
     return <button className="square" value={i}></button>;
   }
 
-  async llenarArray() {
-    const square = document.querySelectorAll(".square");
-    let newArray = [];
-
-    for (let i = 0; i < square.length; i++) {
-      newArray.push(square[i].textContent);
-    }
-
-    this.state.array = newArray;
-  }
-
   render() {
-    document.onkeyup = (e) => {
-      if (e.key === "Enter") {
-        this.llenarArray();
-      }
-    };
-    window.onbeforeunload = () => {
-      this.llenarArray();
-      this.guardarEstado();
-      this.props.guardarEstado();
-    };
     return (
       <main className="board-flex">
         <div className="board">
@@ -258,8 +210,12 @@ class Keyboard extends React.Component {
         </div>
         <div className="fila-keyboard">
           <button
-            className="key key-special"
-            onClick={() => this.props.onClick("Enter")}
+            className="key key-special enter"
+            onClick={ async () => {
+              await this.props.onClick("Enter");
+              await this.props.llenarArray();
+              await this.props.guardarEstado();
+            }}
           >
             ENVIAR
           </button>
@@ -650,6 +606,7 @@ class App extends React.Component {
       6: 0,
       X: 0,
     },
+    array: [],
   };
 
   async componentDidMount() {
@@ -662,9 +619,37 @@ class App extends React.Component {
         modoDaltonicos: parse.modoDaltonicos,
         dailyWord: parse.dailyWord,
         distribucion: parse.distribucion,
+        array: parse.array,
       });
       await this.cargarSettings();
+
+      if(parse.array){
+        if(parse.array[0] !== ""){
+          for(let i = 0; i < parse.array.length; i++){
+            if(parse.array[i] !== ""){
+              await this.keyPress(parse.array[i]);
+              if((i+1) % 5 === 0){
+                await this.llenarArray();
+                await this.keyPress("Enter");
+              }
+            }
+          }
+        }
+      }
+
+      await this.recuperarStats();
     }
+  }
+
+  async llenarArray() {
+    const square = document.querySelectorAll(".square");
+    let newArray = [];
+
+    for (let i = 0; i < square.length; i++) {
+      newArray.push(square[i].textContent);
+    }
+
+    this.state.array = newArray;
   }
 
   async recuperarStats() {
@@ -896,7 +881,7 @@ class App extends React.Component {
         document.getElementsByClassName("square")[this.state.position - 1];
       square.textContent = "";
     } else if (e === "Enter") {
-      const existe = this.checkWord();
+      const existe = await this.checkWord();
       if (existe) {
         this.moveRow();
       }
@@ -1007,7 +992,17 @@ class App extends React.Component {
   }
 
   render() {
-    document.onkeydown = (e) => this.keyPress(e.key);
+    document.onkeydown = async (e) => {
+      await this.keyPress(e.key);
+      if(e.key === "Enter"){
+        await this.llenarArray();
+        await this.guardarEstado();
+      }
+    };
+    window.onbeforeunload = () => {
+      this.llenarArray();
+      this.guardarEstado();
+    }
     return (
       <div className="game">
         <div className="game-main">
@@ -1024,7 +1019,7 @@ class App extends React.Component {
             recuperarStats={() => this.recuperarStats()}
           />
           <ToastContainer limit={3} />
-          <Keyboard onClick={(i) => this.keyPress(i)} />
+          <Keyboard onClick={(i) => this.keyPress(i)} llenarArray={() => this.llenarArray()} guardarEstado={() => this.guardarEstado()}/>
         </div>
         <div className="game-help hidden scale-up-center">
           <Help displayHelp={() => this.displayMenu(".game-help")} />
