@@ -85,9 +85,7 @@ function checkWord() {
   }
 
   for (let i = 0; i < 5; i++) {
-    if (
-      desencriptarPalabra(juegoActual.dailyWord).includes(word[i]) && cantidadRepetidos[word[i]] > 0
-    ) {
+    if (desencriptarPalabra(juegoActual.dailyWord).includes(word[i]) && cantidadRepetidos[word[i]] > 0) {
       square[i + 5 * (juegoActual.row - 1)].classList.add('presente');
       document.getElementById(word[i].toUpperCase()).classList.add('presente');
       cantidadRepetidos[word[i]] -= 1;

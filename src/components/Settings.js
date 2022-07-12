@@ -69,10 +69,7 @@ export default function Settings({ juego, setJuego, displaySettings }) {
                   checked={juego.modoOscuro}
                   onChange={() => cambiarModoOscuro()}
                 />
-                <label
-                  className="onoffswitch-label"
-                  htmlFor="myonoffswitch"
-                />
+                <label className="onoffswitch-label" htmlFor="myonoffswitch" />
               </div>
             </div>
           </div>

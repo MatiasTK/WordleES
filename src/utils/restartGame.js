@@ -30,16 +30,12 @@ export default function restartGame(juego) {
   if (juego.dificil) {
     newGame = {
       ...newGame,
-      dailyWord: encriptarPalabra(
-        diccionario[Math.floor(Math.random() * diccionario.length)],
-      ),
+      dailyWord: encriptarPalabra(diccionario[Math.floor(Math.random() * diccionario.length)]),
     };
   } else {
     newGame = {
       ...newGame,
-      dailyWord: encriptarPalabra(
-        words[Math.floor(Math.random() * words.length)],
-      ),
+      dailyWord: encriptarPalabra(words[Math.floor(Math.random() * words.length)]),
     };
   }
 

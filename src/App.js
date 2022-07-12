@@ -86,7 +86,6 @@ export default function App() {
     };
   }, [juego]);
 
-
   return (
     <div className="game">
       <div className="game-main">

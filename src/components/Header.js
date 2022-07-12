@@ -2,9 +2,7 @@ import guardarEstado from '../utils/guardarEstado';
 import llenarArray from '../utils/llenarArray';
 import restartGame from '../utils/restartGame';
 
-export default function Header({
-  juego, setJuego, displayHelp, displayStats, displaySettings,
-}) {
+export default function Header({ juego, setJuego, displayHelp, displayStats, displaySettings }) {
   return (
     <header className="header">
       <div>
