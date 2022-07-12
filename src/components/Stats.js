@@ -11,8 +11,7 @@ export default function Stats({ displayStats, juego }) {
       <div className="stats-fila">
         <p className="stats-fila-numero">{number}:</p>
         <div className="stats-squares">
-          <dd className="percentage" id={`d-${number}`} />({porcentaje}
-          %)
+          <dd className="percentage" id={`d-${number}`} />{porcentaje ? (`${porcentaje}%`) : 'No hay datos'}
         </div>
       </div>
     );
@@ -50,7 +49,7 @@ export default function Stats({ displayStats, juego }) {
               <p className="stats-texto">Jugadas</p>
             </div>
             <div className="victorias">
-              <p className="stats-numero">{parseInt((juego.victorias * 100) / juego.jugadas, 10)}%</p>
+              <p className="stats-numero">{juego.victorias ? parseInt((juego.victorias * 100) / juego.jugadas, 10) : 0}%</p>
               <p className="stats-texto">Victorias</p>
             </div>
           </div>
