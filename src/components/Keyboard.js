@@ -1,6 +1,22 @@
-export default function Keyboard({ keypress }) {
+import guardarEstado from '../utils/guardarEstado';
+import keyPress from '../utils/keypress';
+import llenarArray from '../utils/llenarArray';
+
+export default function Keyboard({ juego, setJuego }) {
   function renderKey(i) {
-    return <button className="key" id={i} onClick={() => keypress(i)} type="button">{i}</button>;
+    return (
+      <button
+        className="key"
+        id={i}
+        onClick={() => {
+          const newState = keyPress(i, juego);
+          setJuego(newState);
+        }}
+        type="button"
+      >
+        {i}
+      </button>
+    );
   }
 
   return (
@@ -33,7 +49,10 @@ export default function Keyboard({ keypress }) {
         <button
           className="key key-special enter"
           onClick={() => {
-            keypress('Enter');
+            let newState = keyPress('Enter', juego);
+            newState = llenarArray(newState);
+            setJuego(newState);
+            guardarEstado(newState);
           }}
           type="button"
         >
@@ -47,7 +66,10 @@ export default function Keyboard({ keypress }) {
         {renderKey('N')}
         {renderKey('M')}
         <button
-          onClick={() => keypress('Backspace')}
+          onClick={() => {
+            const newState = keyPress('Backspace', juego);
+            setJuego(newState);
+          }}
           className="key key-special"
           type="button"
         >

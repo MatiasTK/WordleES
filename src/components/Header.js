@@ -1,3 +1,5 @@
+import guardarEstado from '../utils/guardarEstado';
+import llenarArray from '../utils/llenarArray';
 import restartGame from '../utils/restartGame';
 
 export default function Header({
@@ -37,7 +39,9 @@ export default function Header({
           strokeLinejoin="round"
           onClick={() => {
             const newState = restartGame(juego);
+            llenarArray(newState);
             setJuego(newState);
+            guardarEstado(newState);
           }}
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />

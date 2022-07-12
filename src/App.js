@@ -47,7 +47,7 @@ export default function App() {
         let newState = {
           dificil: savedData.dificil,
           modoOscuro: savedData.modoOscuro,
-          modoDaltonicos: savedData.modoDaltonicos,
+          modoDaltonico: savedData.modoDaltonico,
           dailyWord: savedData.dailyWord,
           distribucion: savedData.distribucion,
           estadoActual: savedData.estadoActual,
@@ -98,7 +98,7 @@ export default function App() {
           displaySettings={() => displayMenu('.game-settings')}
         />
         <Board juego={juego} />
-        <Keyboard keypress={(i) => keyPress(i, juego, setJuego)} />
+        <Keyboard juego={juego} setJuego={setJuego} />
       </div>
       <div className="game-help hidden scale-up-center">
         <Help displayHelp={() => displayMenu('.game-help')} />
