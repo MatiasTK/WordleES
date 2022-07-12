@@ -1,10 +1,16 @@
 export default function Help({ displayHelp }) {
   function renderSquare(value, optionalClass) {
     if (optionalClass) {
-      return <button type="button" className={`square-help ${optionalClass}`}>{value}</button>;
+      return (
+        <button type="button" className={`square-help ${optionalClass}`}>
+          {value}
+        </button>
+      );
     }
     return (
-      <button className="square-help" type="button">{value}</button>
+      <button className="square-help" type="button">
+        {value}
+      </button>
     );
   }
 
@@ -33,15 +39,10 @@ export default function Help({ displayHelp }) {
             </svg>
           </button>
         </h3>
+        <p className="ayuda-descripcion">Adivina la palabra oculta en seis intentos.</p>
+        <p className="ayuda-descripcion">Cada intento debe ser una palabra válida de 5 letras.</p>
         <p className="ayuda-descripcion">
-          Adivina la palabra oculta en seis intentos.
-        </p>
-        <p className="ayuda-descripcion">
-          Cada intento debe ser una palabra válida de 5 letras.
-        </p>
-        <p className="ayuda-descripcion">
-          Después de cada intento el color de las letras cambia para mostrar
-          qué tan cerca estás de acertar la palabra.
+          Después de cada intento el color de las letras cambia para mostrar qué tan cerca estás de acertar la palabra.
         </p>
         <p className="ayuda-subtitulo">Ejemplos</p>
         <div className="fila-help">
@@ -52,9 +53,7 @@ export default function Help({ displayHelp }) {
           {renderSquare('S')}
         </div>
         <p className="grid-ayuda">
-          La letra
-          <b>G</b>
-          está en la palabra y en la posición correcta.
+          La letra <b>G</b> está en la palabra y en la posición correcta.
         </p>
         <div className="fila-help">
           {renderSquare('V')}
@@ -64,9 +63,7 @@ export default function Help({ displayHelp }) {
           {renderSquare('L')}
         </div>
         <p className="grid-ayuda">
-          La letra
-          <b>C</b>
-          está en la palabra pero en la posición incorrecta.
+          La letra <b>C</b> está en la palabra pero en la posición incorrecta.
         </p>
         <div className="fila-help">
           {renderSquare('C')}
@@ -76,15 +73,11 @@ export default function Help({ displayHelp }) {
           {renderSquare('O', 'incorrecto')}
         </div>
         <p className="grid-ayuda">
-          La letra
-          <b>O</b>
-          no está en la palabra.
+          La letra <b>O</b> no está en la palabra.
         </p>
         <p className="ayuda-descripcion">
-          Puede haber letras repetidas. Las pistas son independientes para
-          cada letra.
+          Puede haber letras repetidas. Las pistas son independientes para cada letra.
         </p>
-
         <footer className="footer-ayuda">
           <svg
             xmlns="http://www.w3.org/2000/svg"
