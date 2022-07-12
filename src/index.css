@@ -299,7 +299,6 @@ code {
   color: var(--color-texto);
   display: flex;
   flex-direction: column;
-  width: 90%;
   text-align: left;
   height: 90%;
   padding: 1rem;

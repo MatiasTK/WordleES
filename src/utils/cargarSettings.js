@@ -1,7 +1,7 @@
 export default function cargarSettings(juego) {
   const { style } = document.documentElement;
 
-  if (juego.modoDaltonicos) {
+  if (juego.modoDaltonico) {
     style.setProperty('--color-correcto', '#86c1f6');
     style.setProperty('--color-presente', '#f47842');
   } else {

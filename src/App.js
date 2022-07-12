@@ -86,9 +86,9 @@ export default function App() {
     };
   }, [juego]);
 
+
   return (
     <div className="game">
-      <ToastContainer limit={3} />
       <div className="game-main">
         <Header
           juego={juego}
@@ -109,6 +109,7 @@ export default function App() {
       <div className="game-settings hidden scale-up-center">
         <Settings juego={juego} setJuego={setJuego} displaySettings={() => displayMenu('.game-settings')} />
       </div>
+      <ToastContainer limit={3} />
     </div>
   );
 }
