@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
-
 import restartGame from '../utils/restartGame';
 
-// eslint-disable-next-line object-curly-newline
-export default function Header({ juego, setJuego, displayHelp, displayStats, displaySettings }) {
+export default function Header({
+  juego, setJuego, displayHelp, displayStats, displaySettings,
+}) {
   return (
     <header className="header">
       <div>

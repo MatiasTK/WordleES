@@ -1,7 +1,7 @@
 import { encriptarPalabra } from '../libs/crypto';
 
 const words = require('../palabras_5.json');
-const diccionario = require('../diccionario.json');
+const diccionario = require('../final_dictionary.json');
 
 // Returns new state to avoid breaking react rules.
 export default function restartGame(juego) {

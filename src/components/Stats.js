@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-one-expression-per-line */
 export default function Stats({ displayStats, juego }) {
   function renderDistribution(number) {
     const porcentaje = parseInt((juego.distribucion[number] * 100) / juego.jugadas, 10);
@@ -9,16 +9,10 @@ export default function Stats({ displayStats, juego }) {
 
     return (
       <div className="stats-fila">
-        <p className="stats-fila-numero">
-          {number}
-          :
-        </p>
+        <p className="stats-fila-numero">{number}:</p>
         <div className="stats-squares">
-          <dd className="percentage" id={`d-${number}`}>
-            (
-            {porcentaje}
-            %)
-          </dd>
+          <dd className="percentage" id={`d-${number}`} />({porcentaje}
+          %)
         </div>
       </div>
     );
@@ -56,10 +50,7 @@ export default function Stats({ displayStats, juego }) {
               <p className="stats-texto">Jugadas</p>
             </div>
             <div className="victorias">
-              <p className="stats-numero">
-                {parseInt((juego.victorias * 100) / juego.jugadas, 10)}
-                %
-              </p>
+              <p className="stats-numero">{parseInt((juego.victorias * 100) / juego.jugadas, 10)}%</p>
               <p className="stats-texto">Victorias</p>
             </div>
           </div>

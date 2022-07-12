@@ -1,0 +1,4 @@
+- [ ] Convert project to typescript.
+- [ ] Add social share buttons.
+- [ ] Make game daily mode.
+- [ ] Test stats.

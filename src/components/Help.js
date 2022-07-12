@@ -1,4 +1,3 @@
-// eslint-disable-next-line react/prop-types
 export default function Help({ displayHelp }) {
   function renderSquare(value, optionalClass) {
     if (optionalClass) {

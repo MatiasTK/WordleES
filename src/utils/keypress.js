@@ -1,7 +1,7 @@
 import { toast, Zoom } from 'react-toastify';
 import { desencriptarPalabra } from '../libs/crypto';
 
-const diccionario = require('../diccionario.json');
+const diccionario = require('../final_dictionary.json');
 
 let juegoActual;
 
@@ -85,8 +85,9 @@ function checkWord() {
   }
 
   for (let i = 0; i < 5; i++) {
-    // eslint-disable-next-line max-len
-    if (desencriptarPalabra(juegoActual.dailyWord).includes(word[i]) && cantidadRepetidos[word[i]] > 0) {
+    if (
+      desencriptarPalabra(juegoActual.dailyWord).includes(word[i]) && cantidadRepetidos[word[i]] > 0
+    ) {
       square[i + 5 * (juegoActual.row - 1)].classList.add('presente');
       document.getElementById(word[i].toUpperCase()).classList.add('presente');
       cantidadRepetidos[word[i]] -= 1;

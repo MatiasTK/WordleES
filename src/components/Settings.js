@@ -1,9 +1,6 @@
-/* eslint-disable object-curly-newline */
-
 import cargarSettings from '../utils/cargarSettings';
 import restartGame from '../utils/restartGame';
 
-/* eslint-disable react/prop-types */
 export default function Settings({ juego, setJuego, displaySettings }) {
   function cambiarModoDificil() {
     const newState = restartGame(juego);

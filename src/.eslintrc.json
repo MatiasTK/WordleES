@@ -21,6 +21,7 @@
         "react/jsx-filename-extension": "off",
         "react/react-in-jsx-scope": "off",
         "jsx-a11y/label-has-associated-control": "off",
-        "no-plusplus": [2, { "allowForLoopAfterthoughts": true }]
+        "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
+        "react/prop-types": "off"
     }
 }

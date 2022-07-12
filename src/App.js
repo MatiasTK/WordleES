@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Board from './components/Board';
@@ -14,13 +13,8 @@ import guardarEstado from './utils/guardarEstado';
 import keyPress from './utils/keypress';
 import llenarArray from './utils/llenarArray';
 import recuperarStats from './utils/recuperarStats';
-import showLastTry from './utils/showLastTry';
 
-// TODO: Parsear en python un diccionario final.
-const diccionario = require('./diccionario.json');
 const words = require('./palabras_5.json');
-
-words.forEach((word) => diccionario.push(word));
 
 export default function App() {
   const [juego, setJuego] = useState({
@@ -47,32 +41,37 @@ export default function App() {
   });
 
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem('juego'));
-    if (savedData) {
-      let newState = {
-        dificil: savedData.dificil,
-        modoOscuro: savedData.modoOscuro,
-        modoDaltonicos: savedData.modoDaltonicos,
-        dailyWord: savedData.dailyWord,
-        distribucion: savedData.distribucion,
-        estadoActual: savedData.estadoActual,
-        row: 1,
-        position: 1,
-      };
-      if (newState.estadoActual[0] && newState.estadoActual[0] !== '') {
-        for (let i = 0; i < newState.estadoActual.length; i++) {
-          if (newState.estadoActual[i] !== '') {
-            newState = keyPress(newState.estadoActual[i], newState);
-            if ((i + 1) % 5 === 0) {
-              newState = llenarArray(newState);
-              newState = keyPress('Enter', newState);
+    function getLastData() {
+      const savedData = JSON.parse(localStorage.getItem('juego'));
+      if (savedData) {
+        let newState = {
+          dificil: savedData.dificil,
+          modoOscuro: savedData.modoOscuro,
+          modoDaltonicos: savedData.modoDaltonicos,
+          dailyWord: savedData.dailyWord,
+          distribucion: savedData.distribucion,
+          estadoActual: savedData.estadoActual,
+          juegoFinalizado: false,
+          row: 1,
+          position: 1,
+        };
+        if (savedData.estadoActual[0] && savedData.estadoActual[0] !== '') {
+          for (let i = 0; i < savedData.estadoActual.length; i++) {
+            if (savedData.estadoActual[i] !== '') {
+              newState = keyPress(savedData.estadoActual[i], newState);
+              if ((i + 1) % 5 === 0) {
+                newState = llenarArray(newState);
+                newState = keyPress('Enter', newState);
+              }
             }
           }
         }
+        newState = recuperarStats(newState);
+        setJuego(newState);
       }
-      newState = recuperarStats(newState);
-      setJuego((prevState) => ({ ...prevState, ...newState }));
     }
+
+    getLastData();
   }, []);
 
   useEffect(() => {

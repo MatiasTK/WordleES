@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 export default function Keyboard({ keypress }) {
   function renderKey(i) {
     return <button className="key" id={i} onClick={() => keypress(i)} type="button">{i}</button>;
