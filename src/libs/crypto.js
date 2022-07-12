@@ -3,7 +3,6 @@ import CryptoJS from 'crypto-js';
 const secretKey = process.env.REACT_APP_SECRET_KEY;
 
 function encriptarPalabra(palabra) {
-  console.log(palabra);
   return CryptoJS.AES.encrypt(palabra, secretKey).toString();
 }
 
