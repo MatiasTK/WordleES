@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
+import axios from 'axios';
 import Board from './components/Board';
 import Header from './components/Header';
 import Help from './components/Help';
@@ -54,6 +55,7 @@ export default function App() {
           juegoFinalizado: false,
           row: 1,
           position: 1,
+          dailyMode: savedData.dailyMode,
         };
         if (savedData.estadoActual[0] && savedData.estadoActual[0] !== '') {
           for (let i = 0; i < savedData.estadoActual.length; i++) {
@@ -85,6 +87,21 @@ export default function App() {
       setJuego(newState);
     };
   }, [juego]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const word = await axios.get('https://wordle-ashy.vercel.app/api/wordle');
+      const daily = word.data.dailyWord;
+      const dailyCrpyted = encriptarPalabra(daily);
+
+      if(juego.dailyMode){
+        setJuego({...juego, dailyWord: dailyCrpyted})
+      }
+    }
+
+    fetchData();
+
+  }, [juego.dailyMode]);
 
   return (
     <div className="game">

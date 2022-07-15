@@ -4,3 +4,4 @@
 - [ ] Test stats.
 - [ ] Make test (E2E).
 - [x] Fix virtual keyboard.
+- [ ] Current streak - Max Streak - Played.

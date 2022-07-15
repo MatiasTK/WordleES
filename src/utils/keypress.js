@@ -7,7 +7,7 @@ let juegoActual;
 
 // TODO: Mejorar que no exista variable global juegoActual.
 
-async function movePosition(stepForward = true) {
+function movePosition(stepForward = true) {
   if (stepForward) {
     const nextPosition = juegoActual.position + 1;
     if (nextPosition <= juegoActual.row * 5) {

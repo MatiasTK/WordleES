@@ -1,7 +1,12 @@
+/* eslint-disable no-unused-vars */
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import cargarSettings from '../utils/cargarSettings';
 import restartGame from '../utils/restartGame';
 
 export default function Settings({ juego, setJuego, displaySettings }) {
+  const [apiWord, setApiWord] = useState('');
+
   function cambiarModoDificil() {
     const newState = restartGame(juego);
     setJuego({
@@ -27,6 +32,26 @@ export default function Settings({ juego, setJuego, displaySettings }) {
     setJuego(newState);
     cargarSettings(newState);
   }
+
+  function cambiarDailyMode() {
+    const newState = restartGame(juego);
+    setJuego({
+      ...newState,
+      dailyMode: !juego.dailyMode,
+      dailyWord: apiWord
+    })
+  }
+
+  /* useEffect(() => {
+    const fetchData = async () => {
+      const raw = await axios.get('https://wordle-ashy.vercel.app/api/wordle');
+      const word = JSON.stringify(raw);
+      return word;
+    }
+
+    setApiWord(fetchData())
+
+  }, []); */
 
   return (
     <div className="settings">
@@ -54,6 +79,26 @@ export default function Settings({ juego, setJuego, displaySettings }) {
           </button>
         </h3>
         <div className="settings-opciones">
+        <div className="settings-opcion">
+            <div>
+              <p className="settings-opcion__texto">Modo Diario</p>
+              <p className="settings-opcion__subtexto">Solo una palabra por dia.</p>
+            </div>
+            <div>
+              <div className="onoffswitch">
+                <input
+                  type="checkbox"
+                  name="onoffswitch"
+                  className="onoffswitch-checkbox"
+                  id="myonoffswitch"
+                  tabIndex={0}
+                  checked={juego.dailyMode}
+                  onChange={() => cambiarDailyMode()}
+                />
+                <label className="onoffswitch-label" htmlFor="myonoffswitch" />
+              </div>
+            </div>
+          </div>
           <div className="settings-opcion">
             <div>
               <p className="settings-opcion__texto">Modo Oscuro</p>
@@ -64,12 +109,12 @@ export default function Settings({ juego, setJuego, displaySettings }) {
                   type="checkbox"
                   name="onoffswitch"
                   className="onoffswitch-checkbox"
-                  id="myonoffswitch"
-                  tabIndex={0}
+                  id="myonoffswitch-3"
+                  tabIndex={-3}
                   checked={juego.modoOscuro}
                   onChange={() => cambiarModoOscuro()}
                 />
-                <label className="onoffswitch-label" htmlFor="myonoffswitch" />
+                <label className="onoffswitch-label" htmlFor="myonoffswitch-3" />
               </div>
             </div>
           </div>
