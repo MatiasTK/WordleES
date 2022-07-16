@@ -7,10 +7,10 @@ interface StatsProps {
 
 export default function Stats({ juego }: StatsProps) {
   function renderDistribution(index: string) {
-    const porcentaje = (juego.distribucion[index] * 100) / juego.jugadas;
+    const porcentaje: number = (juego.distribucion[index] * 100) / juego.jugadas;
     const chart = document.getElementById(`d-${index}`);
     if (chart) {
-      chart.style.width = `${porcentaje / 10}rem`;
+      chart.style.width = `${(porcentaje / 10).toFixed(0)}rem`;
     }
 
     return (
@@ -18,7 +18,7 @@ export default function Stats({ juego }: StatsProps) {
         <p className="stats-fila-numero">{index}:</p>
         <div className="stats-squares">
           <dd className="percentage" id={`d-${index}`} />
-          {porcentaje ? `${porcentaje}%` : 'No hay datos'}
+          {porcentaje ? `${porcentaje.toFixed(0)}%` : 'No hay datos'}
         </div>
       </div>
     );
@@ -57,12 +57,19 @@ export default function Stats({ juego }: StatsProps) {
             </div>
             <div className="victorias">
               <p className="stats-numero">
-                {juego.victorias ? (juego.victorias * 100) / juego.jugadas : 0}%
+                {(juego.victorias ? (juego.victorias * 100) / juego.jugadas : 0).toFixed(0)}%
               </p>
               <p className="stats-texto">Victorias</p>
             </div>
+            <div className="stats-jugadas">
+              <p className="stats-numero">{juego.streak}</p>
+              <p className="stats-texto">Racha actual</p>
+            </div>
+            <div className="stats-jugadas">
+              <p className="stats-numero">{juego.maxStreak}</p>
+              <p className="stats-texto">Mayor Racha</p>
+            </div>
           </div>
-
           <h3 className="stats-titulo">Distribucion</h3>
           <div className="stats-distribucion">
             <div className="stats-distribucion-center">

@@ -13,6 +13,10 @@ export default function recuperarStats(juego : Juego) {
       victorias: parse.victorias,
       distribucion: parse.distribucion,
       jugadas: parse.jugadas,
+      streak: parse.streak,
+      maxStreak: parse.maxStreak,
+      position: parse.position,
+      row: parse.row
     };
   }
 

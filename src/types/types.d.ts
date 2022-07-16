@@ -9,11 +9,14 @@ export interface Juego {
   jugadas: number,
   victorias: number,
   dailyMode: boolean,
-  distribucion: Object<distribucion>,
-  estadoActual: Array<string>
+  distribucion: Object<Distribucion>,
+  estadoActual: Array<string>,
+  streak: number,
+  maxStreak: number,
+  hardModeMustContain: Array<Letters>
 }
 
-interface distribucion {
+interface Distribucion {
   1: number,
   2: number,
   3: number,
@@ -21,4 +24,9 @@ interface distribucion {
   5: number,
   6: number,
   X: number,
+}
+
+interface Letters {
+  letter: string,
+  position: number
 }

@@ -74,7 +74,7 @@ export default function Settings({ juego, setJuego }: SettingsProps) {
         <div className="settings-opcion">
             <div>
               <p className="settings-opcion__texto">Modo Diario</p>
-              <p className="settings-opcion__subtexto">Solo una palabra por dia.</p>
+              <p className="settings-opcion__subtexto">Solo una palabra por dia. <u style={{color: 'lightblue'}}>Experimental.</u></p>
             </div>
             <div>
               <div className="onoffswitch">
@@ -113,7 +113,7 @@ export default function Settings({ juego, setJuego }: SettingsProps) {
           <div className="settings-opcion">
             <div>
               <p className="settings-opcion__texto">Modo Dificil</p>
-              <p className="settings-opcion__subtexto">Mas palabras pero sin ser verificadas. Yo te avise.</p>
+              <p className="settings-opcion__subtexto">Mas palabras pero sin ser verificadas. <br/>Todas las pistas reveladas deberan ser utilizadas en los intentos siguientes.</p>
             </div>
             <div>
               <div className="onoffswitch">

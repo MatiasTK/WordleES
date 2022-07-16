@@ -32,6 +32,7 @@ export default function restartGame(juego: Juego) {
     newGame = {
       ...newGame,
       dailyWord: encriptarPalabra(diccionario[Math.floor(Math.random() * diccionario.length)]),
+      hardModeMustContain: []
     };
   } else {
     newGame = {

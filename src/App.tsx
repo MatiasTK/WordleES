@@ -39,6 +39,9 @@ export default function App() {
     },
     estadoActual: [],
     dailyMode: false,
+    streak: 0,
+    maxStreak: 0,
+    hardModeMustContain: []
   });
 
   useEffect(() => {
@@ -50,7 +53,7 @@ export default function App() {
       }
       const savedData = JSON.parse(rawData);
       if (savedData) {
-        let newState = {
+        let newState: Juego = {
           dificil: savedData.dificil,
           modoOscuro: savedData.modoOscuro,
           modoDaltonico: savedData.modoDaltonico,
@@ -64,6 +67,9 @@ export default function App() {
           row: 1,
           position: 1,
           dailyMode: savedData.dailyMode,
+          streak: 0,
+          maxStreak: 0,
+          hardModeMustContain: []
         };
         if (savedData.estadoActual[0] && savedData.estadoActual[0] !== '') {
           for (let i = 0; i < savedData.estadoActual.length; i++) {

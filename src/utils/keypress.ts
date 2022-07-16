@@ -21,10 +21,23 @@ function movePosition(stepForward = true) {
   }
 }
 
+function indexOfChars(str: string, char: string): number[] {
+  const indexes: number[] = [];
+  const split = str.split('');
+
+  for(let i = 0; i < split.length; i++){
+    if(char === str[i]){
+      indexes.push(i);
+    }
+  }
+
+  return indexes;
+}
+
 function checkWord() {
   let word = '';
 
-  const square = document.querySelectorAll<HTMLElement>('.square') ;
+  const square = document.querySelectorAll<HTMLElement>('.square');
   for (let i = juegoActual.row * 5 - 5; i < juegoActual.row * 5; i++) {
     word += square[i].textContent;
   }
@@ -45,7 +58,7 @@ function checkWord() {
     return false;
   }
 
-  const cantidadRepetidos: Record<string,number> = {};
+  const cantidadRepetidos: Record<string, number> = {};
   const palabra = desencriptarPalabra(juegoActual.dailyWord);
   for (let i = 0; i < palabra.length; i++) {
     cantidadRepetidos[palabra[i]] = 0;
@@ -70,6 +83,45 @@ function checkWord() {
     });
     return false;
   }
+
+  if (juegoActual.dificil) {
+    for (let i = 0; i < juegoActual.hardModeMustContain.length; i++) {
+      const { letter, position } = juegoActual.hardModeMustContain[i];
+      if (!word.includes(letter) && position === 0) {
+        toast.info(`El intento debe contener ${letter}`, {
+          position: 'top-center',
+          className: 'toast',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          transition: Zoom,
+        });
+        return false;
+      }
+      const indexes = indexOfChars(word,letter);
+      if (!indexes.includes(position-1) && position !== 0) {
+        toast.info(`El intento debe contener ${letter} en la ${position} posicion`, {
+          position: 'top-center',
+          className: 'toast',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          transition: Zoom,
+        });
+        return false;
+      }
+
+    }
+    juegoActual.hardModeMustContain = []
+  }
+
+
   let delay = 0;
   for (let i = 0; i < 5; i++) {
     square[i + 5 * (juegoActual.row - 1)].style.animationDelay = `${delay}s`;
@@ -80,9 +132,9 @@ function checkWord() {
     if (word[i] === desencriptarPalabra(juegoActual.dailyWord)[i]) {
       square[i + 5 * (juegoActual.row - 1)].classList.add('correcto');
       const squareLetter = document.getElementById(word[i].toUpperCase());
-      if(!squareLetter){
-        console.error('Cant get HTML actual square');
-        return;
+      juegoActual.hardModeMustContain.push({ letter: word[i], position: i+1 })
+      if (!squareLetter) {
+        throw new Error('Can\'t get actual square');
       }
       squareLetter.classList.add('correcto');
       cantidadRepetidos[word[i]] -= 1;
@@ -91,13 +143,13 @@ function checkWord() {
 
   for (let i = 0; i < 5; i++) {
     const squareLetter = document.getElementById(word[i].toUpperCase());
-    if(!squareLetter){
-      console.error('Cant get HTML actual square');
-      return;
+    if (!squareLetter) {
+      throw new Error('Can\'t get actual square');
     }
 
     if (desencriptarPalabra(juegoActual.dailyWord).includes(word[i]) && cantidadRepetidos[word[i]] > 0) {
       square[i + 5 * (juegoActual.row - 1)].classList.add('presente');
+      juegoActual.hardModeMustContain.push({ letter: word[i], position: 0 })
       squareLetter.classList.add('presente');
       cantidadRepetidos[word[i]] -= 1;
     } else {
@@ -118,6 +170,13 @@ function checkWord() {
     });
     const nuevasJugadas = juegoActual.jugadas + 1;
     const nuevasVictorias = juegoActual.victorias + 1;
+    const nuevaRacha = juegoActual.streak + 1;
+
+    let nuevaMayorRacha = juegoActual.maxStreak;
+    if (nuevaRacha > nuevaMayorRacha) {
+      nuevaMayorRacha = nuevaRacha;
+    }
+
     const nuevaDistribucion = { ...juegoActual.distribucion };
     nuevaDistribucion[juegoActual.row] += 1;
     juegoActual = {
@@ -126,6 +185,8 @@ function checkWord() {
       jugadas: nuevasJugadas,
       victorias: nuevasVictorias,
       distribucion: nuevaDistribucion,
+      streak: nuevaRacha,
+      maxStreak: nuevaMayorRacha,
     };
   }
   return true;
@@ -169,12 +230,13 @@ function fallaste() {
       juegoFinalizado: true,
       jugadas: nuevasJugadas,
       distribucion: nuevaDistribucion,
+      streak: 0,
     };
   }
 }
 
 // Returns a new state to avoid breaking react rules.
-function keyPress(e : string, juego : Juego) {
+function keyPress(e: string, juego: Juego) {
   juegoActual = juego;
 
   if (juegoActual.juegoFinalizado) {
