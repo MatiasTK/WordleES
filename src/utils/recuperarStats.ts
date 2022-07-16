@@ -3,7 +3,7 @@
 import { Juego } from "../types/types";
 
 // ? Las cargo despues para que cuando simule el escribir no le sume stats que no hizo.
-export default function recuperarStats(juego : Juego) {
+export default function recuperarStats(juego: Juego) {
   const data = localStorage.getItem('juego');
   let lastGame = juego;
   if (data) {

@@ -9,9 +9,9 @@ export default function llenarArray(juego: Juego) {
 
   for (let i = 0; i < square.length; i++) {
     const content = square[i].textContent;
-    if(content){
+    if (content) {
       newArray.push(content);
-    }else{
+    } else {
       newArray.push('');
     }
   }

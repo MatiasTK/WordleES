@@ -25,8 +25,8 @@ function indexOfChars(str: string, char: string): number[] {
   const indexes: number[] = [];
   const split = str.split('');
 
-  for(let i = 0; i < split.length; i++){
-    if(char === str[i]){
+  for (let i = 0; i < split.length; i++) {
+    if (char === str[i]) {
       indexes.push(i);
     }
   }
@@ -101,8 +101,8 @@ function checkWord() {
         });
         return false;
       }
-      const indexes = indexOfChars(word,letter);
-      if (!indexes.includes(position-1) && position !== 0) {
+      const indexes = indexOfChars(word, letter);
+      if (!indexes.includes(position - 1) && position !== 0) {
         toast.info(`El intento debe contener ${letter} en la ${position} posicion`, {
           position: 'top-center',
           className: 'toast',
@@ -132,7 +132,7 @@ function checkWord() {
     if (word[i] === desencriptarPalabra(juegoActual.dailyWord)[i]) {
       square[i + 5 * (juegoActual.row - 1)].classList.add('correcto');
       const squareLetter = document.getElementById(word[i].toUpperCase());
-      juegoActual.hardModeMustContain.push({ letter: word[i], position: i+1 })
+      juegoActual.hardModeMustContain.push({ letter: word[i], position: i + 1 })
       if (!squareLetter) {
         throw new Error('Can\'t get actual square');
       }

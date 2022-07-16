@@ -11,7 +11,7 @@ export default function cargarSettings(juego: Juego) {
     style.setProperty('--color-presente', '#c9b360');
   }
   const backspaceIcon = document.querySelector('.icon-tabler-backspace');
-  if(!backspaceIcon){
+  if (!backspaceIcon) {
     console.error('Cant get backspaceIcon');
     return;
   }
