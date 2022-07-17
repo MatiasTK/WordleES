@@ -88,7 +88,7 @@ function checkWord() {
     for (let i = 0; i < juegoActual.hardModeMustContain.length; i++) {
       const { letter, position } = juegoActual.hardModeMustContain[i];
       if (!word.includes(letter) && position === 0) {
-        toast.info(`El intento debe contener ${letter}`, {
+        toast.info(`El intento debe contener ${letter.toUpperCase()}`, {
           position: 'top-center',
           className: 'toast',
           autoClose: 2000,
@@ -103,7 +103,7 @@ function checkWord() {
       }
       const indexes = indexOfChars(word, letter);
       if (!indexes.includes(position - 1) && position !== 0) {
-        toast.info(`El intento debe contener ${letter} en la ${position} posicion`, {
+        toast.info(`El intento debe contener ${letter.toUpperCase()} en la ${position} posicion`, {
           position: 'top-center',
           className: 'toast',
           autoClose: 2000,

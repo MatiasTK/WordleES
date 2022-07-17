@@ -10,4 +10,6 @@ TO-DO
 - [x] Current streak - Max Streak - Played
 - [x] Make hard mode harder.
 - [x] Fix tsconfig.json & Eslint config.
-- [ ] Mayor refactor to keypress.ts
+- [ ] Mayor refactor to keypress.ts.
+- [ ] Make readme better.
+- [ ] Configure github CI -> Make tests firt.

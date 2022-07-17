@@ -108,7 +108,7 @@ export default function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const word = await axios.get('https://wordle-ashy.vercel.app/api/wordle');
+      const word = await axios.get(process.env.REACT_APP_WORDLE_API_URL!);
       const daily = word.data.dailyWord;
       const dailyCrypted = encriptarPalabra(daily);
 
