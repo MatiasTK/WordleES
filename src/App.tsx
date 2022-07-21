@@ -60,7 +60,7 @@ export default function App() {
           dailyWord: savedData.dailyWord,
           distribucion: savedData.distribucion,
           estadoActual: savedData.estadoActual,
-          // Seteo las variables en 0 ya que voy a simular un juego, luego las reinicio a sus estados anteriores.
+          // Seteo las variables en 0, ya que voy a simular un juego, luego las reinicio a sus estados anteriores.
           jugadas: 0,
           victorias: 0,
           juegoFinalizado: false,
@@ -117,7 +117,8 @@ export default function App() {
       }
     };
 
-    fetchData();
+    fetchData()
+        .catch(console.error)
   }, [juego.dailyMode]);
 
   return (

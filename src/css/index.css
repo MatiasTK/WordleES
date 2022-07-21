@@ -171,7 +171,7 @@ code {
   line-height: 1.25rem;
   padding: 0.25rem;
   border-radius: 0.25rem;
-  flex: 1 1 0%;
+  flex: 1 1 0;
   height: 3.5rem;
   cursor: pointer;
   border: 1px solid var(--color-tecla);
@@ -255,23 +255,6 @@ code {
   column-gap: 0.5rem;
   margin-bottom: 4px;
   width: 62px;
-}
-
-.square-help {
-  font-size: 2rem;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  content: '';
-  padding: 1rem;
-  height: 62px;
-  width: 62px;
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
-  border: 2px solid var(--color-separador);
-  text-transform: uppercase;
-  font-weight: bold;
 }
 
 .grid-ayuda {

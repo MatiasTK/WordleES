@@ -4,13 +4,13 @@ export default function Help() {
   function renderSquare(value: string, optionalClass?: string) {
     if (optionalClass) {
       return (
-        <button type="button" className={`square-help ${optionalClass}`}>
+        <button type="button" className={`square ${optionalClass}`} style={{fontSize: "2rem"}}>
           {value}
         </button>
       );
     }
     return (
-      <button className="square-help" type="button">
+      <button className="square" style={{fontSize: "2rem"}} type="button">
         {value}
       </button>
     );
