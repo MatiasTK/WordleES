@@ -1,4 +1,4 @@
-import { Juego } from "../types/types";
+import { Juego } from '../types/types';
 
 export default function cargarSettings(juego: Juego) {
   const { style } = document.documentElement;
@@ -11,8 +11,10 @@ export default function cargarSettings(juego: Juego) {
     style.setProperty('--color-presente', '#c9b360');
   }
   const backspaceIcon = document.querySelector('.icon-tabler-backspace');
+
   if (!backspaceIcon) {
     console.error('Cant get backspaceIcon');
+
     return;
   }
 

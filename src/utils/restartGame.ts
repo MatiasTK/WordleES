@@ -1,13 +1,13 @@
 import { encriptarPalabra } from '../libs/crypto';
 import { Juego } from '../types/types';
-
-const words = require('../json/palabras_5.json');
-const diccionario = require('../json/final_dictionary.json');
+import words from '../json/palabras_5.json';
+import diccionario from '../json/final_dictionary.json';
 
 // Returns new state to avoid breaking react rules.
 export default function restartGame(juego: Juego) {
   const squares = document.getElementsByClassName('square');
   let newGame = juego;
+
   for (let i = 0; i < squares.length; i++) {
     squares[i].classList.remove('correcto');
     squares[i].classList.remove('presente');
@@ -16,6 +16,7 @@ export default function restartGame(juego: Juego) {
     squares[i].textContent = '';
   }
   const keys = document.getElementsByClassName('key');
+
   for (let i = 0; i < keys.length; i++) {
     keys[i].classList.remove('correcto');
     keys[i].classList.remove('presente');
@@ -32,7 +33,7 @@ export default function restartGame(juego: Juego) {
     newGame = {
       ...newGame,
       dailyWord: encriptarPalabra(diccionario[Math.floor(Math.random() * diccionario.length)]),
-      hardModeMustContain: []
+      hardModeMustContain: [],
     };
   } else {
     newGame = {

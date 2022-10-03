@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Board from './components/Board';
@@ -10,12 +9,10 @@ import Stats from './components/Stats';
 import { encriptarPalabra } from './libs/crypto';
 import { Juego } from './types/types';
 import cargarSettings from './utils/cargarSettings';
-import guardarEstado from './utils/guardarEstado';
 import keyPress from './utils/keypress';
 import llenarArray from './utils/llenarArray';
 import recuperarStats from './utils/recuperarStats';
-
-const words: string[] = require('./json/palabras_5.json');
+import words from './json/palabras_5.json';
 
 export default function App() {
   const [juego, setJuego] = useState<Juego>({
@@ -38,20 +35,22 @@ export default function App() {
       X: 0,
     },
     estadoActual: [],
-    dailyMode: false,
     streak: 0,
     maxStreak: 0,
-    hardModeMustContain: []
+    hardModeMustContain: [],
   });
 
   useEffect(() => {
     function getLastData() {
       const rawData = localStorage.getItem('juego');
+
       if (!rawData) {
         console.log('No saved data');
+
         return;
       }
       const savedData = JSON.parse(rawData);
+
       if (savedData) {
         let newState: Juego = {
           dificil: savedData.dificil,
@@ -60,17 +59,17 @@ export default function App() {
           dailyWord: savedData.dailyWord,
           distribucion: savedData.distribucion,
           estadoActual: savedData.estadoActual,
-          // Seteo las variables en 0, ya que voy a simular un juego, luego las reinicio a sus estados anteriores.
+          /* Seteo las variables en 0, ya que voy a simular un juego, luego las reinicio a sus estados anteriores. */
           jugadas: 0,
           victorias: 0,
           juegoFinalizado: false,
           row: 1,
           position: 1,
-          dailyMode: savedData.dailyMode,
           streak: 0,
           maxStreak: 0,
-          hardModeMustContain: []
+          hardModeMustContain: [],
         };
+
         if (savedData.estadoActual[0] && savedData.estadoActual[0] !== '') {
           for (let i = 0; i < savedData.estadoActual.length; i++) {
             if (savedData.estadoActual[i] !== '') {
@@ -91,35 +90,25 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    function listenKeydown() {
-      document.onkeydown = (e) => {
-        let newState = keyPress(e.key, juego);
-        if (e.key === 'Enter') {
-          newState = llenarArray(newState);
-          guardarEstado(newState);
-        }
-        setJuego(newState);
-      };
+    function listenKeydown(e: KeyboardEvent) {
+      let newState = keyPress(e.key, juego);
+
+      if (e.key === 'Enter') {
+        newState = llenarArray(newState);
+      }
+      setJuego(newState);
     }
 
+    document.addEventListener('keydown', listenKeydown);
+
     cargarSettings(juego);
-    listenKeydown();
+
+    return () => document.removeEventListener('keydown', listenKeydown);
   }, [juego]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const word = await axios.get(process.env.REACT_APP_WORDLE_API_URL!);
-      const daily = word.data.dailyWord;
-      const dailyCrypted = encriptarPalabra(daily);
-
-      if (juego.dailyMode) {
-        setJuego((j) => ({ ...j, dailyWord: dailyCrypted }));
-      }
-    };
-
-    fetchData()
-        .catch(console.error)
-  }, [juego.dailyMode]);
+    localStorage.setItem('juego', JSON.stringify(juego));
+  }, [juego]);
 
   return (
     <div className="game">

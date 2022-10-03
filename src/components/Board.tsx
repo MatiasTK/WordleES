@@ -1,6 +1,6 @@
 export default function Board() {
   function renderSquare(i: number) {
-    return <button className="square" aria-label="square" value={i} type="button" />;
+    return <button aria-label="square" className="square" type="button" value={i} />;
   }
 
   return (

@@ -7,6 +7,7 @@ function encriptarPalabra(palabra: string): string {
     return CryptoJS.AES.encrypt(palabra, secretKey).toString();
   }
   console.error('Secret key is undefined');
+
   return '';
 }
 
@@ -15,7 +16,8 @@ function desencriptarPalabra(encriptado: string): string {
     return CryptoJS.AES.decrypt(encriptado, secretKey).toString(CryptoJS.enc.Utf8);
   }
   console.error('Secret key is undefined');
-  return ''
+
+  return '';
 }
 
 export { encriptarPalabra, desencriptarPalabra };

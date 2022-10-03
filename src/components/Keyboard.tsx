@@ -1,29 +1,29 @@
-import React from 'react';
-import { Juego } from '../types/types';
-import guardarEstado from '../utils/guardarEstado';
-import keyPress from '../utils/keypress';
-import llenarArray from '../utils/llenarArray';
+import React from 'react'
+import { Juego } from '../types/types'
+import keyPress from '../utils/keypress'
+import llenarArray from '../utils/llenarArray'
 
 interface KeyboardProps {
-  juego: Juego,
+  juego: Juego
   setJuego: React.Dispatch<React.SetStateAction<Juego>>
 }
 
-export default function Keyboard({ juego, setJuego }: KeyboardProps) {
+function Keyboard({ juego, setJuego }: KeyboardProps) {
   function renderKey(i: string) {
     return (
       <button
         className="key"
         id={i}
-        onClick={() => {
-          const newState = keyPress(i, juego);
-          setJuego(newState);
-        }}
         type="button"
+        onClick={() => {
+          const newState = keyPress(i, juego)
+
+          setJuego(newState)
+        }}
       >
         {i}
       </button>
-    );
+    )
   }
 
   return (
@@ -55,13 +55,13 @@ export default function Keyboard({ juego, setJuego }: KeyboardProps) {
       <div className="fila-keyboard">
         <button
           className="key key-special enter"
-          onClick={() => {
-            let newState = keyPress('Enter', juego);
-            newState = llenarArray(newState);
-            setJuego(newState);
-            guardarEstado(newState);
-          }}
           type="button"
+          onClick={() => {
+            let newState = keyPress('Enter', juego)
+
+            newState = llenarArray(newState)
+            setJuego(newState)
+          }}
         >
           ENVIAR
         </button>
@@ -73,31 +73,34 @@ export default function Keyboard({ juego, setJuego }: KeyboardProps) {
         {renderKey('N')}
         {renderKey('M')}
         <button
-          onClick={() => {
-            const newState = keyPress('Backspace', juego);
-            setJuego(newState);
-          }}
           className="key key-special"
           type="button"
+          onClick={() => {
+            const newState = keyPress('Backspace', juego)
+
+            setJuego(newState)
+          }}
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-backspace"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="#f5f5f5"
             fill="none"
+            height="24"
+            stroke="#f5f5f5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth="1.5"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M0 0h24v24H0z" fill="none" stroke="none" />
             <path d="M20 6a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-11l-5 -5a1.5 1.5 0 0 1 0 -2l5 -5z" />
             <path d="M12 10l4 4m0 -4l-4 4" />
           </svg>
         </button>
       </div>
     </div>
-  );
+  )
 }
+
+export default Keyboard

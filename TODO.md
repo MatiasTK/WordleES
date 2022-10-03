@@ -1,9 +1,8 @@
-TO-DO
--------
+## TO-DO
 
 - [x] Convert project to typescript.
 - [ ] Add social share buttons -> Modal on win?.
-- [ ] Make game daily mode, with countdown to next day -> WIP, Experimental.
+- [ ] Make game daily mode, with countdown to next day -> Will try to do with NextJS version.
 - [ ] Test stats.
 - [ ] Make test (E2E).
 - [x] Fix virtual keyboard.
@@ -13,3 +12,4 @@ TO-DO
 - [ ] Mayor refactors to keypress.ts.
 - [ ] Make readme better.
 - [ ] Configure GitHub CI -> Make tests first.
+- [ ] Fix re-render problems?
